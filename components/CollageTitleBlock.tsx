@@ -3,7 +3,7 @@ import Link from "next/link";
 export function CollageTitleBlock() {
   return (
     <div className="flex flex-col items-center justify-center py-16 md:py-24">
-      <h1 className="font-handwritten text-5xl leading-tight tracking-wide text-ink text-center uppercase md:text-7xl md:leading-tight [font-synthesis:weight] font-bold [-webkit-font-smoothing:auto] [text-rendering:optimizeLegibility]">
+      <h1 className="font-handwritten text-5xl leading-tight tracking-wide text-ink text-center uppercase md:text-7xl md:leading-tight">
         Excerpts
         <br />
         from
