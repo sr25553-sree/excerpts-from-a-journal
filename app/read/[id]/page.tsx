@@ -5,6 +5,7 @@ import { EntryBody } from "@/components/EntryBody";
 import { RandomButton } from "@/components/RandomButton";
 import { MoodTag } from "@/components/MoodTag";
 import { ReactionBar } from "@/components/ReactionBar";
+import { PageShell } from "@/components/PageShell";
 import { relativeTime } from "@/lib/time";
 import type { Mood } from "@/lib/types";
 
@@ -60,25 +61,27 @@ export default async function EntryPage({ params }: PageProps) {
   }
 
   return (
-    <article>
-      <EntryBody content={entry.content} />
+    <PageShell>
+      <article>
+        <EntryBody content={entry.content} />
 
-      {entry.mood && (
+        {entry.mood && (
+          <div className="mt-8">
+            <MoodTag mood={entry.mood as Mood} />
+          </div>
+        )}
+
         <div className="mt-8">
-          <MoodTag mood={entry.mood as Mood} />
+          <ReactionBar entryId={entry.id} />
         </div>
-      )}
 
-      <div className="mt-8">
-        <ReactionBar entryId={entry.id} />
-      </div>
-
-      <div className="mt-12 border-t border-rule pt-8">
-        <div className="flex items-center justify-between font-sans text-xs text-ink-faint">
-          <span>{relativeTime(entry.created_at)}</span>
-          <RandomButton />
+        <div className="mt-12 border-t border-rule pt-8">
+          <div className="flex items-center justify-between font-sans text-xs text-ink-faint">
+            <span>{relativeTime(entry.created_at)}</span>
+            <RandomButton />
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </PageShell>
   );
 }
