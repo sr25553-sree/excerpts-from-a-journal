@@ -12,6 +12,7 @@
 
   --font-serif: var(--font-source-serif-4), "Georgia", "Times New Roman", serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-nav: var(--font-inter), system-ui, sans-serif;
   --font-handwritten: var(--font-casual-human), cursive;
   --font-biro: var(--font-biro-script), cursive;
 
