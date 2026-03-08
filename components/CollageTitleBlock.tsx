@@ -4,11 +4,11 @@ export function CollageTitleBlock() {
   return (
     <div className="flex flex-col items-center justify-center py-16 md:py-24">
       <h1 className="font-handwritten text-5xl leading-tight tracking-wide text-ink text-center md:text-7xl md:leading-tight">
-        EXCERPTS
+        excerpts
         <br />
-        FROM
+        from
         <br />
-        A JOURNAL
+        a journal
       </h1>
       <Link
         href="/write"
