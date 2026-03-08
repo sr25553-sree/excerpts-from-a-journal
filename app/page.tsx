@@ -1,8 +1,30 @@
 import { createServerClient } from "@/lib/supabase/server";
-import { CollageTitleBlock } from "@/components/CollageTitleBlock";
 import { CollageGrid } from "@/components/CollageGrid";
 
 const PAGE_SIZE = 24;
+
+const SAMPLE_ENTRIES = [
+  { id: "sample-1", content: "Today I watched the rain fall for an hour and felt nothing but peace. Sometimes doing nothing is the most productive thing.", created_at: "2026-03-01T10:00:00Z", mood: "peaceful" },
+  { id: "sample-2", content: "I told someone I loved them today. They didn't say it back. But I'm glad I said it anyway.", created_at: "2026-03-02T10:00:00Z", mood: "reflective" },
+  { id: "sample-3", content: "The coffee shop on 5th street closed down. I never even knew the barista's name but I'll miss her smile.", created_at: "2026-03-03T10:00:00Z", mood: "melancholy" },
+  { id: "sample-4", content: "Spent the whole day reorganizing my bookshelf. Not by genre or author — by the feeling each book gives me.", created_at: "2026-03-04T10:00:00Z", mood: "reflective" },
+  { id: "sample-5", content: "My grandmother called today just to tell me she dreamt about me. We talked for two hours about nothing important.", created_at: "2026-03-05T10:00:00Z", mood: "grateful" },
+  { id: "sample-6", content: "I realized I've been apologizing for things that aren't my fault. Today I practiced saying 'thank you' instead of 'sorry'.", created_at: "2026-03-06T10:00:00Z", mood: "hopeful" },
+  { id: "sample-7", content: "Walked home the long way. Found a street I've never been on after living here for three years.", created_at: "2026-02-28T10:00:00Z", mood: "curious" },
+  { id: "sample-8", content: "Some days I write to remember. Other days I write to forget. Today I'm not sure which one this is.", created_at: "2026-02-27T10:00:00Z", mood: "reflective" },
+  { id: "sample-9", content: "The sunset was so beautiful tonight that I pulled over just to watch. A stranger next to me did the same. We never spoke.", created_at: "2026-02-26T10:00:00Z", mood: "peaceful" },
+  { id: "sample-10", content: "I forgave someone today. Not for them — for me. It felt like putting down a bag I didn't know I was carrying.", created_at: "2026-02-25T10:00:00Z", mood: "hopeful" },
+  { id: "sample-11", content: "Made pancakes at 2am because I couldn't sleep. They were the best pancakes I've ever made.", created_at: "2026-02-24T10:00:00Z", mood: "peaceful" },
+  { id: "sample-12", content: "I keep a list of things that make me smile. Today I added 'the sound of pages turning in a quiet room'.", created_at: "2026-02-23T10:00:00Z", mood: "grateful" },
+  { id: "sample-13", content: "Told my friend the truth even though it was hard. Real love isn't comfortable — it's honest.", created_at: "2026-02-22T10:00:00Z", mood: "reflective" },
+  { id: "sample-14", content: "Planted a seed today. I won't see it grow for months but something about that feels right.", created_at: "2026-02-21T10:00:00Z", mood: "hopeful" },
+  { id: "sample-15", content: "I don't know who I'm becoming but I think I like her. She's quieter, kinder, less afraid.", created_at: "2026-02-20T10:00:00Z", mood: "hopeful" },
+  { id: "sample-16", content: "The world feels heavy today. But even heavy things can be carried if you rest along the way.", created_at: "2026-02-19T10:00:00Z", mood: "melancholy" },
+  { id: "sample-17", content: "Read an old letter I wrote to myself five years ago. I've become everything I hoped I would.", created_at: "2026-02-18T10:00:00Z", mood: "grateful" },
+  { id: "sample-18", content: "Sometimes the bravest thing is to stay. To sit with the discomfort and not run.", created_at: "2026-02-17T10:00:00Z", mood: "reflective" },
+  { id: "sample-19", content: "A child waved at me from a bus window today. I waved back. We both laughed. That was enough.", created_at: "2026-02-16T10:00:00Z", mood: "peaceful" },
+  { id: "sample-20", content: "Cleaned out my closet and found a ticket stub from a concert I went to alone. Best night of my life.", created_at: "2026-02-15T10:00:00Z", mood: "grateful" },
+];
 
 export default async function FeedPage() {
   const supabase = createServerClient();
@@ -14,37 +36,15 @@ export default async function FeedPage() {
     .order("created_at", { ascending: false })
     .limit(PAGE_SIZE + 1);
 
-  const entries = data ?? [];
-  const hasMore = entries.length > PAGE_SIZE;
+  const dbEntries = data ?? [];
+  const hasDbEntries = dbEntries.length > 0;
+
+  const entries = hasDbEntries ? dbEntries : SAMPLE_ENTRIES;
+  const hasMore = hasDbEntries && entries.length > PAGE_SIZE;
   const visibleEntries = hasMore ? entries.slice(0, PAGE_SIZE) : entries;
   const nextCursor = hasMore
     ? visibleEntries[visibleEntries.length - 1].created_at
     : null;
-
-  // Split entries: some before title, rest after
-  const topEntries = visibleEntries.slice(0, Math.min(6, visibleEntries.length));
-  const bottomEntries = visibleEntries.slice(Math.min(6, visibleEntries.length));
-
-  if (visibleEntries.length === 0) {
-    return (
-      <div>
-        <CollageTitleBlock />
-        <div className="py-20 text-center">
-          <p className="font-serif text-lg font-light italic text-ink-faint">
-            No one has written anything yet.
-          </p>
-          <p className="mt-4 font-sans text-sm text-ink-faint">
-            <a
-              href="/write"
-              className="underline underline-offset-4 hover:text-ink transition-colors duration-300"
-            >
-              Be the first.
-            </a>
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen">
@@ -52,7 +52,7 @@ export default async function FeedPage() {
         initialEntries={visibleEntries}
         initialCursor={nextCursor}
         initialHasMore={hasMore}
-        topCount={topEntries.length}
+        topCount={Math.min(hasDbEntries ? 6 : 10, visibleEntries.length)}
       />
     </div>
   );

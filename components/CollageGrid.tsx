@@ -70,7 +70,7 @@ export function CollageGrid({
   return (
     <>
       {/* Top cards */}
-      <div className="grid grid-cols-2 gap-3 px-3 justify-items-center sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-6">
+      <div className="grid grid-cols-2 gap-3 px-3 justify-items-center sm:grid-cols-3 md:grid-cols-5 md:gap-4 md:px-6">
         {topEntries.map((entry) => (
           <CollageCard key={entry.id} entry={entry} onClick={setSelectedEntryId} />
         ))}
@@ -80,7 +80,7 @@ export function CollageGrid({
       <CollageTitleBlock />
 
       {/* Bottom cards */}
-      <div className="grid grid-cols-2 gap-3 px-3 justify-items-center sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-6">
+      <div className="grid grid-cols-2 gap-3 px-3 justify-items-center sm:grid-cols-3 md:grid-cols-5 md:gap-4 md:px-6">
         {bottomEntries.map((entry) => (
           <CollageCard key={entry.id} entry={entry} onClick={setSelectedEntryId} />
         ))}
