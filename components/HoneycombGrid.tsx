@@ -251,6 +251,8 @@ export function HoneycombGrid({ initialEntries }: HoneycombGridProps) {
                 top: cell.top,
                 width: cardW,
                 height: cardH,
+                border: "2px solid red",
+                background: "rgba(255,251,153,0.4)",
               }}
             >
               <CollageCard entry={initialEntries[i]} onClick={handleCardClick} />
