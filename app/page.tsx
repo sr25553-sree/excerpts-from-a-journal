@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import { HoneycombGrid } from "@/components/HoneycombGrid";
+import { LandingPage } from "@/components/LandingPage";
 
 const PAGE_SIZE = 24;
 
@@ -40,6 +40,6 @@ export default async function FeedPage() {
   const entries = dbEntries.length > 0 ? dbEntries.slice(0, PAGE_SIZE) : SAMPLE_ENTRIES;
 
   return (
-    <HoneycombGrid initialEntries={entries} />
+    <LandingPage initialEntries={entries} />
   );
 }
