@@ -3,12 +3,12 @@ import Link from "next/link";
 export function CollageTitleBlock() {
   return (
     <div className="flex flex-col items-center justify-center py-16 md:py-24">
-      <h1 className="font-handwritten text-5xl leading-tight tracking-wide text-ink text-center uppercase md:text-7xl md:leading-tight">
-        Excerpts
+      <h1 className="font-handwritten text-5xl leading-tight tracking-wide text-ink text-center md:text-7xl md:leading-tight">
+        EXCERPTS
         <br />
-        from
+        FROM
         <br />
-        a Journal
+        A JOURNAL
       </h1>
       <Link
         href="/write"
