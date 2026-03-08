@@ -8,15 +8,12 @@
   --color-accent: #6b5c4c;
   --color-rule: #e5e0d8;
 
-  --color-card-cream: #fdf6ec;
-  --color-card-pink: #fdf0ee;
-  --color-card-blue: #eef3f8;
-  --color-card-yellow: #fdf8e8;
-  --color-card-white: #ffffff;
+  --color-card-navy: #0f2578;
 
   --font-serif: var(--font-source-serif-4), "Georgia", "Times New Roman", serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-handwritten: var(--font-casual-human), cursive;
+  --font-biro: var(--font-biro-script), cursive;
 
   --animate-fade-in: fade-in 0.6s ease-out;
   --animate-overlay-in: overlay-in 0.3s ease-out;

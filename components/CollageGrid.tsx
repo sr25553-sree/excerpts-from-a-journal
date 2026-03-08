@@ -17,7 +17,7 @@ export function CollageGrid({
   initialEntries,
   initialCursor,
   initialHasMore,
-  topCount = 6,
+  topCount = 8,
 }: CollageGridProps) {
   const [entries, setEntries] = useState(initialEntries);
   const [cursor, setCursor] = useState(initialCursor);
@@ -70,11 +70,9 @@ export function CollageGrid({
   return (
     <>
       {/* Top cards */}
-      <div className="columns-2 gap-3 px-3 md:columns-3 md:gap-4 md:px-6 lg:columns-4">
+      <div className="grid grid-cols-2 gap-3 px-3 justify-items-center sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-6">
         {topEntries.map((entry) => (
-          <div key={entry.id} className="mb-3 break-inside-avoid md:mb-4">
-            <CollageCard entry={entry} onClick={setSelectedEntryId} />
-          </div>
+          <CollageCard key={entry.id} entry={entry} onClick={setSelectedEntryId} />
         ))}
       </div>
 
@@ -82,11 +80,9 @@ export function CollageGrid({
       <CollageTitleBlock />
 
       {/* Bottom cards */}
-      <div className="columns-2 gap-3 px-3 md:columns-3 md:gap-4 md:px-6 lg:columns-4">
+      <div className="grid grid-cols-2 gap-3 px-3 justify-items-center sm:grid-cols-3 md:grid-cols-4 md:gap-4 md:px-6">
         {bottomEntries.map((entry) => (
-          <div key={entry.id} className="mb-3 break-inside-avoid md:mb-4">
-            <CollageCard entry={entry} onClick={setSelectedEntryId} />
-          </div>
+          <CollageCard key={entry.id} entry={entry} onClick={setSelectedEntryId} />
         ))}
       </div>
 

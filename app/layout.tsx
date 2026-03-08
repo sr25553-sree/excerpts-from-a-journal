@@ -17,6 +17,12 @@ const casualHuman = localFont({
   display: "swap",
 });
 
+const biroScript = localFont({
+  src: "./fonts/Biro_Script_reduced.otf",
+  variable: "--font-biro-script",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Excerpts from a Journal",
   description: "Anonymous words, left here for anyone.",
@@ -33,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sourceSerif.variable} ${casualHuman.variable}`}>
+    <html lang="en" className={`${sourceSerif.variable} ${casualHuman.variable} ${biroScript.variable}`}>
       <body>
         <main>{children}</main>
       </body>
