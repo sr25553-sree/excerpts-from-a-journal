@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import { CollageGrid } from "@/components/CollageGrid";
+import { HoneycombGrid } from "@/components/HoneycombGrid";
 
 const PAGE_SIZE = 24;
 
@@ -37,23 +37,9 @@ export default async function FeedPage() {
     .limit(PAGE_SIZE + 1);
 
   const dbEntries = data ?? [];
-  const hasDbEntries = dbEntries.length > 0;
-
-  const entries = hasDbEntries ? dbEntries : SAMPLE_ENTRIES;
-  const hasMore = hasDbEntries && entries.length > PAGE_SIZE;
-  const visibleEntries = hasMore ? entries.slice(0, PAGE_SIZE) : entries;
-  const nextCursor = hasMore
-    ? visibleEntries[visibleEntries.length - 1].created_at
-    : null;
+  const entries = dbEntries.length > 0 ? dbEntries.slice(0, PAGE_SIZE) : SAMPLE_ENTRIES;
 
   return (
-    <div className="min-h-screen">
-      <CollageGrid
-        initialEntries={visibleEntries}
-        initialCursor={nextCursor}
-        initialHasMore={hasMore}
-        topCount={Math.min(hasDbEntries ? 6 : 10, visibleEntries.length)}
-      />
-    </div>
+    <HoneycombGrid initialEntries={entries} />
   );
 }

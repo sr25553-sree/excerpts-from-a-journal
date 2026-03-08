@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function CollageTitleBlock() {
   return (
-    <div className="flex flex-col items-center justify-center py-16 md:py-24">
+    <div className="flex flex-col items-center justify-center h-full w-full">
       <h1 className="font-handwritten text-[49px] leading-[45px] md:text-[100px] md:leading-[93.846px] text-black text-center md:w-[658px]">
         <span className="md:hidden">
           excerpts
@@ -25,7 +25,7 @@ export function CollageTitleBlock() {
       >
         {/* Inner dark pill */}
         <span
-          className="relative inline-flex items-center justify-center rounded-[74px] md:rounded-[153px] px-[30px] pt-[20px] pb-[22px] md:px-[62px] md:pt-[41px] md:pb-[46px] text-[13px] md:text-[27px] font-bold leading-[16px] md:leading-[33px] text-white text-center overflow-clip"
+          className="relative inline-flex items-center justify-center rounded-[74px] md:rounded-[153px] px-[30px] pt-[20px] pb-[22px] md:px-[62px] md:py-[30px] text-[13px] md:text-[27px] font-bold md:font-normal leading-[16px] md:leading-[33px] text-white text-center overflow-clip"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 161 58' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='0.2'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(10.073 3.1417 -0.50738 3.6286 45.307 -6.0417)'><stop stop-color='rgba(255,255,255,1)' offset='0'/><stop stop-color='rgba(255,255,255,0)' offset='1'/></radialGradient></defs></svg>\"), linear-gradient(90deg, #272727 0%, #272727 100%)",
