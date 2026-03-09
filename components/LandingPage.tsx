@@ -218,7 +218,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
       {selectedCard && (() => {
         const entries = initialEntries.length >= 24
           ? initialEntries
-          : [...initialEntries, ...initialEntries, ...initialEntries].slice(0, 24);
+          : Array.from({ length: 24 }, (_, i) => initialEntries[i % initialEntries.length]);
         const entry = entries.find(e => e.id === selectedCard.id);
         if (!entry) return null;
         return (

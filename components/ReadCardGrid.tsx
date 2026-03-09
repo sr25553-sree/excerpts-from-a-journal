@@ -34,7 +34,7 @@ export function ReadCardGrid({ entries, onCardClick }: ReadCardGridProps) {
   const minCards = 24;
   const displayEntries = entries.length >= minCards
     ? entries
-    : [...entries, ...entries, ...entries].slice(0, minCards);
+    : Array.from({ length: minCards }, (_, i) => entries[i % entries.length]);
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 md:gap-4 px-4 py-4 md:px-6 md:py-6">
