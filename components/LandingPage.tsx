@@ -191,10 +191,10 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
           {/* Journal counter */}
           <p
-            className="absolute left-1/2 -translate-x-1/2 top-[calc(50%+216px)] md:top-[calc(50%+262px)] text-[14px] md:text-[20px] text-center whitespace-nowrap"
+            className="absolute left-1/2 -translate-x-1/2 bottom-[50px] text-[14px] md:text-[20px] text-center whitespace-nowrap"
             style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, color: "#7B7B7B" }}
           >
-            {totalCount.toLocaleString()} journals written so far.
+            {totalCount.toLocaleString()} journals written so far
           </p>
         </div>
 
