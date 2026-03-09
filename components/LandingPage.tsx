@@ -167,7 +167,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
           {/* CTA Button */}
           <div
-            className="absolute left-1/2 md:left-[calc(50%+13.5px)] top-[calc(50%+40px)] md:top-[calc(50%+112px)] -translate-x-1/2 -translate-y-1/2 scale-[0.7] md:scale-[0.9] flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)]"
+            className="absolute left-1/2 md:left-[calc(50%+13.5px)] top-[calc(50%+56px)] md:top-[calc(50%+134px)] -translate-x-1/2 -translate-y-1/2 scale-[0.7] md:scale-[0.9] flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)]"
           >
             <Link
               href="/write"
@@ -191,7 +191,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
           {/* Journal counter */}
           <p
-            className="absolute left-1/2 -translate-x-1/2 top-[calc(50%+200px)] md:top-[calc(50%+240px)] text-[14px] md:text-[20px] text-center whitespace-nowrap"
+            className="absolute left-1/2 -translate-x-1/2 top-[calc(50%+216px)] md:top-[calc(50%+262px)] text-[14px] md:text-[20px] text-center whitespace-nowrap"
             style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, color: "#7B7B7B" }}
           >
             {totalCount.toLocaleString()} journals written so far.
