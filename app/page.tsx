@@ -43,7 +43,11 @@ export default async function FeedPage() {
   const dbEntries = data ?? [];
   const entries = dbEntries.length > 0 ? dbEntries.slice(0, PAGE_SIZE) : SAMPLE_ENTRIES;
 
+  const { count } = await supabase
+    .from("entries")
+    .select("*", { count: "exact", head: true });
+
   return (
-    <LandingPage initialEntries={entries} />
+    <LandingPage initialEntries={entries} totalCount={count ?? 0} />
   );
 }

@@ -14,9 +14,10 @@ const CARD_SHADOW =
 
 interface LandingPageProps {
   initialEntries: Pick<Entry, "id" | "content" | "created_at" | "mood">[];
+  totalCount: number;
 }
 
-export function LandingPage({ initialEntries }: LandingPageProps) {
+export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
   const [tab, setTab] = useState<Tab>("write");
   const [selectedCard, setSelectedCard] = useState<{ id: string; cardIndex: number } | null>(null);
 
@@ -187,6 +188,14 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
             {/* Outer pill inner shadow */}
             <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_4.146px_0px_rgba(0,0,0,0.08)]" />
           </div>
+
+          {/* Journal counter */}
+          <p
+            className="absolute left-1/2 -translate-x-1/2 top-[calc(50%+200px)] md:top-[calc(50%+240px)] text-[14px] md:text-[20px] text-center whitespace-nowrap"
+            style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, color: "#7B7B7B" }}
+          >
+            {totalCount.toLocaleString()} journals written so far.
+          </p>
         </div>
 
         {/* === READ VIEW — fades in after write exits, fades out first === */}
