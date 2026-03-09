@@ -51,8 +51,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
             style={
               tab === "write"
                 ? {
-                    backgroundImage:
-                      "linear-gradient(91.73deg, rgba(247,247,247,0.94) 43.947%, rgba(252,255,84,0.94) 76.106%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
+                    background: "rgba(252,255,84,0.94)",
                     boxShadow:
                       "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
                   }
@@ -77,8 +76,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
             style={
               tab === "read"
                 ? {
-                    backgroundImage:
-                      "linear-gradient(91.73deg, rgba(247,247,247,0.94) 43.947%, rgba(252,255,84,0.94) 76.106%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
+                    background: "rgba(252,255,84,0.94)",
                     boxShadow:
                       "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
                   }
