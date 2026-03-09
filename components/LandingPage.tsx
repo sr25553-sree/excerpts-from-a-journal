@@ -48,7 +48,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
         </div>
 
         {/* === NAV TOGGLE — always visible === */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-[calc(50%-394.06px)] -translate-y-1/2 scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10">
+        <div className="absolute left-1/2 -translate-x-1/2 top-[24px] md:top-[calc(50%-394.06px)] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10">
           {/* Write tab */}
           <button
             onClick={() => setTab("write")}
@@ -111,9 +111,9 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
             transitionDelay: isWrite ? "350ms" : "0ms",
           }}
         >
-          {/* Photo cards strip — positioned above viewport, peeking in */}
+          {/* Photo cards strip — positioned above viewport, peeking in (desktop only) */}
           <div
-            className="absolute left-[-45px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
+            className="hidden md:block absolute left-[-45px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
             style={{ boxShadow: CARD_SHADOW }}
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[379.626px] w-[259.744px]">
@@ -122,7 +122,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </div>
 
           <div
-            className="absolute left-[272.87px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
+            className="hidden md:block absolute left-[272.87px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
             style={{ boxShadow: CARD_SHADOW }}
           >
             <Image alt="" src="/images/card-frame.svg" fill className="object-contain" />
@@ -130,7 +130,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </div>
 
           <div
-            className="absolute left-[589.83px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
+            className="hidden md:block absolute left-[589.83px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
             style={{ boxShadow: CARD_SHADOW }}
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[269.734px] w-[258.836px]">
@@ -139,7 +139,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </div>
 
           <div
-            className="absolute left-[907.7px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
+            className="hidden md:block absolute left-[907.7px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
             style={{ boxShadow: CARD_SHADOW }}
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[367.82px] w-[259.744px]">
@@ -148,7 +148,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </div>
 
           <div
-            className="absolute left-[1225.57px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
+            className="hidden md:block absolute left-[1225.57px] top-[-511px] h-[367.82px] w-[260.075px] overflow-clip"
             style={{ boxShadow: CARD_SHADOW }}
           >
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[367.82px] w-[263.377px] overflow-clip">
@@ -157,8 +157,8 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </div>
 
           {/* Title */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[314px] w-[676px] h-[209px] text-center">
-            <h1 className="font-handwritten text-[100px] leading-[93.846px] text-black">
+          <div className="absolute left-1/2 -translate-x-1/2 top-[140px] md:top-[314px] w-[90vw] md:w-[676px] text-center">
+            <h1 className="font-handwritten text-[48px] leading-[45px] md:text-[100px] md:leading-[93.846px] text-black">
               <span className="block">excerpts from</span>
               <span className="block">a journal</span>
             </h1>
@@ -166,7 +166,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
 
           {/* CTA Button */}
           <div
-            className="absolute left-[calc(50%+13.5px)] top-[calc(50%+112px)] -translate-x-1/2 -translate-y-1/2 scale-[0.9] flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)]"
+            className="absolute left-1/2 md:left-[calc(50%+13.5px)] top-[calc(50%+40px)] md:top-[calc(50%+112px)] -translate-x-1/2 -translate-y-1/2 scale-[0.7] md:scale-[0.9] flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)]"
           >
             <Link
               href="/write"
@@ -191,7 +191,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
 
         {/* === READ VIEW — fades in after write exits, fades out first === */}
         <div
-          className={`absolute inset-0 top-[144px] transition-opacity ease-in-out ${
+          className={`absolute inset-0 top-[80px] md:top-[144px] transition-opacity ease-in-out ${
             isWrite ? "pointer-events-none" : ""
           }`}
           style={{

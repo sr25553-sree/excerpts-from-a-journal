@@ -37,7 +37,7 @@ export function ReadCardGrid({ entries, onCardClick }: ReadCardGridProps) {
     : [...entries, ...entries, ...entries].slice(0, minCards);
 
   return (
-    <div className="grid grid-cols-8 gap-4 px-6 py-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 md:gap-4 px-4 py-4 md:px-6 md:py-6">
       {displayEntries.map((entry, i) => (
         <button
           key={`${entry.id}-${i}`}

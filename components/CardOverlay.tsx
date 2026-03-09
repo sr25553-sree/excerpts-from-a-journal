@@ -46,7 +46,7 @@ export function CardOverlay({ content, cardSrc, onClose }: CardOverlayProps) {
 
       {/* Card */}
       <div
-        className={`relative w-[400px] aspect-[287/405] transition-transform duration-300 ease-out ${
+        className={`relative w-[85vw] max-w-[400px] aspect-[287/405] transition-transform duration-300 ease-out ${
           closing ? "scale-75" : "scale-100"
         }`}
         style={{ animationFillMode: "forwards" }}
@@ -57,7 +57,7 @@ export function CardOverlay({ content, cardSrc, onClose }: CardOverlayProps) {
           fill
           className="object-contain pointer-events-none"
         />
-        <p className="absolute inset-0 flex items-center justify-center font-biro text-[18px] leading-[1.4] text-card-navy text-center px-[15%] pt-[15%] pb-[8%]">
+        <p className="absolute inset-0 flex items-center justify-center font-biro text-[14px] md:text-[18px] leading-[1.4] text-card-navy text-center px-[15%] pt-[15%] pb-[8%]">
           {content}
         </p>
       </div>
