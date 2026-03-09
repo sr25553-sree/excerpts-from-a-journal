@@ -48,7 +48,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
         </div>
 
         {/* === NAV TOGGLE — always visible === */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-[calc(50%-394.06px)] -translate-y-1/2 backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10">
+        <div className="absolute left-1/2 -translate-x-1/2 top-[calc(50%-394.06px)] -translate-y-1/2 scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10">
           {/* Write tab */}
           <button
             onClick={() => setTab("write")}
