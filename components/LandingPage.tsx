@@ -3,8 +3,8 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ReadCardGrid } from "./ReadCardGrid";
-import { EntryOverlay } from "./EntryOverlay";
+import { ReadCardGrid, getCardType } from "./ReadCardGrid";
+import { CardOverlay } from "./CardOverlay";
 import type { Entry } from "@/lib/types";
 
 type Tab = "write" | "read";
@@ -18,10 +18,10 @@ interface LandingPageProps {
 
 export function LandingPage({ initialEntries }: LandingPageProps) {
   const [tab, setTab] = useState<Tab>("write");
-  const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
+  const [selectedCard, setSelectedCard] = useState<{ id: string; cardIndex: number } | null>(null);
 
-  const handleCardClick = useCallback((id: string) => {
-    setSelectedEntryId(id);
+  const handleCardClick = useCallback((id: string, cardIndex: number) => {
+    setSelectedCard({ id, cardIndex });
   }, []);
 
   const isWrite = tab === "write";
@@ -206,12 +206,20 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
         </div>
       </div>
 
-      {selectedEntryId && (
-        <EntryOverlay
-          entryId={selectedEntryId}
-          onClose={() => setSelectedEntryId(null)}
-        />
-      )}
+      {selectedCard && (() => {
+        const entries = initialEntries.length >= 24
+          ? initialEntries
+          : [...initialEntries, ...initialEntries, ...initialEntries].slice(0, 24);
+        const entry = entries.find(e => e.id === selectedCard.id);
+        if (!entry) return null;
+        return (
+          <CardOverlay
+            content={entry.content}
+            cardSrc={getCardType(selectedCard.cardIndex)}
+            onClose={() => setSelectedCard(null)}
+          />
+        );
+      })()}
     </>
   );
 }

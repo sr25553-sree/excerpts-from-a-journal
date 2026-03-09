@@ -3,7 +3,7 @@
 import Image from "next/image";
 import type { Entry } from "@/lib/types";
 
-const CARD_TYPES = [
+export const CARD_TYPES = [
   "/images/card-type-1.svg",
   "/images/card-type-2.svg",
   "/images/card-type-3.svg",
@@ -15,13 +15,13 @@ const CARD_TYPES = [
 // Deterministic card type based on index, shuffled to avoid repeating patterns
 const CARD_ORDER = [4, 0, 3, 2, 1, 5, 3, 0, 2, 5, 1, 4, 0, 3, 5, 1, 4, 2, 5, 0, 3, 1, 2, 4];
 
-function getCardType(index: number): string {
+export function getCardType(index: number): string {
   return CARD_TYPES[CARD_ORDER[index % CARD_ORDER.length]];
 }
 
 interface ReadCardGridProps {
   entries: Pick<Entry, "id" | "content" | "created_at" | "mood">[];
-  onCardClick: (id: string) => void;
+  onCardClick: (id: string, cardIndex: number) => void;
 }
 
 function truncate(text: string, maxLength: number): string {
@@ -41,7 +41,7 @@ export function ReadCardGrid({ entries, onCardClick }: ReadCardGridProps) {
       {displayEntries.map((entry, i) => (
         <button
           key={`${entry.id}-${i}`}
-          onClick={() => onCardClick(entry.id)}
+          onClick={() => onCardClick(entry.id, i)}
           className="relative aspect-[287/405] w-full cursor-pointer transition-transform duration-200 hover:scale-105 hover:z-10"
         >
           <Image

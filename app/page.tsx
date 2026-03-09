@@ -24,6 +24,10 @@ const SAMPLE_ENTRIES = [
   { id: "sample-18", content: "Sometimes the bravest thing is to stay. To sit with the discomfort and not run.", created_at: "2026-02-17T10:00:00Z", mood: "reflective" },
   { id: "sample-19", content: "A child waved at me from a bus window today. I waved back. We both laughed. That was enough.", created_at: "2026-02-16T10:00:00Z", mood: "peaceful" },
   { id: "sample-20", content: "Cleaned out my closet and found a ticket stub from a concert I went to alone. Best night of my life.", created_at: "2026-02-15T10:00:00Z", mood: "grateful" },
+  { id: "sample-21", content: "Sat in a park and watched two strangers become friends over a shared bench. Connection is simpler than we think.", created_at: "2026-02-14T10:00:00Z", mood: "peaceful" },
+  { id: "sample-22", content: "I stopped scrolling and looked up. The sky was doing something incredible and I almost missed it.", created_at: "2026-02-13T10:00:00Z", mood: "grateful" },
+  { id: "sample-23", content: "Wrote a letter I'll never send. Sometimes the act of writing is the conversation itself.", created_at: "2026-02-12T10:00:00Z", mood: "reflective" },
+  { id: "sample-24", content: "The house is quiet tonight. Not empty quiet — full quiet. The kind that holds you.", created_at: "2026-02-11T10:00:00Z", mood: "peaceful" },
 ];
 
 export default async function FeedPage() {
