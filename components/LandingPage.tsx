@@ -50,7 +50,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
         {/* === TOP-RIGHT NAV LINKS === */}
         <div
-          className="hidden md:flex absolute right-10 top-[calc(50%-390px)] -translate-y-1/2 items-center gap-8 z-10"
+          className="hidden md:flex absolute right-[100px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[40px] z-10"
           style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "20px", color: "#7B7B7B" }}
         >
           <Link href="/about" className="no-underline hover:text-black transition-colors" style={{ color: "inherit" }}>
