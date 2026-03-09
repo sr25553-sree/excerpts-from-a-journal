@@ -191,7 +191,7 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
 
         {/* === READ VIEW — fades in after write exits, fades out first === */}
         <div
-          className={`absolute inset-0 top-[120px] transition-opacity ease-in-out ${
+          className={`absolute inset-0 top-[144px] transition-opacity ease-in-out ${
             isWrite ? "pointer-events-none" : ""
           }`}
           style={{
