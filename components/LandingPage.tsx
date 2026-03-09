@@ -43,25 +43,26 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
         </div>
 
         {/* === NAV TOGGLE === */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-[calc(50%-394.06px)] -translate-y-1/2 flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] bg-[rgba(0,0,0,0.03)] backdrop-blur-[1.852px] border-[1.235px] border-solid border-[rgba(0,0,0,0.06)]">
+        <div className="absolute left-1/2 -translate-x-1/2 top-[calc(50%-394.06px)] -translate-y-1/2 backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px]">
           {/* Write tab */}
           <button
             onClick={() => setTab("write")}
-            className={`flex items-center justify-center overflow-clip px-[37.05px] py-[19.76px] relative rounded-[61.75px] shrink-0 cursor-pointer transition-all duration-200 ${
-              tab === "write" ? "" : "bg-transparent"
-            }`}
+            className="flex items-center justify-center overflow-clip px-[37.05px] py-[19.76px] relative rounded-[61.75px] shrink-0 cursor-pointer"
             style={
               tab === "write"
                 ? {
                     backgroundImage:
-                      "linear-gradient(91.76deg, rgba(247,247,247,0.94) 43.947%, rgba(252,255,84,0.94) 76.106%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
+                      "linear-gradient(91.73deg, rgba(247,247,247,0.94) 43.947%, rgba(252,255,84,0.94) 76.106%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
                     boxShadow:
                       "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
                   }
                 : undefined
             }
           >
-            <span className="font-nav font-medium text-[20px] capitalize whitespace-nowrap relative" style={{ color: tab === "write" ? "#0e0e0e" : "#5f5f5f" }}>
+            <span
+              className="capitalize font-medium leading-normal text-[20px] whitespace-nowrap relative shrink-0"
+              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: tab === "write" ? "#0e0e0e" : "#5f5f5f" }}
+            >
               Write
             </span>
             {tab === "write" && (
@@ -72,21 +73,22 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           {/* Read tab */}
           <button
             onClick={() => setTab("read")}
-            className={`flex items-center justify-center overflow-clip px-[30.875px] py-[18.525px] relative rounded-[61.75px] shrink-0 cursor-pointer transition-all duration-200 ${
-              tab === "read" ? "" : "bg-transparent"
-            }`}
+            className="flex items-center justify-center overflow-clip px-[30.875px] py-[18.525px] relative rounded-[61.75px] shrink-0 cursor-pointer"
             style={
               tab === "read"
                 ? {
                     backgroundImage:
-                      "linear-gradient(91.76deg, rgba(247,247,247,0.94) 43.947%, rgba(252,255,84,0.94) 76.106%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
+                      "linear-gradient(91.73deg, rgba(247,247,247,0.94) 43.947%, rgba(252,255,84,0.94) 76.106%), linear-gradient(90deg, rgb(255,255,255) 0%, rgb(255,255,255) 100%)",
                     boxShadow:
                       "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
                   }
                 : undefined
             }
           >
-            <span className="font-nav font-medium text-[20px] capitalize whitespace-nowrap relative" style={{ color: tab === "read" ? "#0e0e0e" : "#5f5f5f" }}>
+            <span
+              className="capitalize font-medium leading-normal text-[20px] whitespace-nowrap relative shrink-0"
+              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: tab === "read" ? "#0e0e0e" : "#5f5f5f" }}
+            >
               Read
             </span>
             {tab === "read" && (
