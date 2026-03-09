@@ -1,12 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { createServerClient } from "@/lib/supabase/server";
-
-export default async function AboutPage() {
-  const supabase = createServerClient();
-  const { count } = await supabase
-    .from("entries")
-    .select("*", { count: "exact", head: true });
+export default function AboutPage() {
 
   return (
     <div className="bg-white relative min-h-screen overflow-hidden">
@@ -55,14 +49,6 @@ export default async function AboutPage() {
           </p>
         </div>
       </div>
-
-      {/* Journal counter */}
-      <p
-        className="absolute left-1/2 -translate-x-1/2 bottom-[50px] text-[14px] md:text-[20px] text-center whitespace-nowrap z-[1]"
-        style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, color: "#7B7B7B" }}
-      >
-        {(count ?? 0).toLocaleString()} journals written so far
-      </p>
     </div>
   );
 }
