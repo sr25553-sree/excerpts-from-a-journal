@@ -50,7 +50,7 @@ export function ReadCardGrid({ entries, onCardClick }: ReadCardGridProps) {
             fill
             className="object-contain pointer-events-none"
           />
-          <p className="absolute inset-0 flex items-center justify-center font-biro text-[clamp(8px,0.9vw,14px)] leading-[1.3] text-card-navy text-center px-[15%] pt-[20%] pb-[10%]">
+          <p className="absolute inset-0 flex items-center justify-center font-handwritten text-[clamp(8px,0.9vw,14px)] leading-[1.3] text-card-navy text-center px-[15%] pt-[20%] pb-[10%]">
             {truncate(entry.content, 80)}
           </p>
         </button>
