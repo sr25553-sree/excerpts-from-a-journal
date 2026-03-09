@@ -27,20 +27,14 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
   return (
     <>
       <div className="bg-white relative min-h-screen overflow-hidden">
-        {/* === BOTANICAL ILLUSTRATION === */}
-        <div className="absolute left-[241px] top-[659px] flex h-[796.642px] w-[892.966px] items-center justify-center">
-          <div className="flex-none rotate-[80.77deg]">
-            <div className="relative h-[794.518px] w-[678px]">
-              <Image
-                alt=""
-                src="/images/botanical.png"
-                fill
-                className="object-cover pointer-events-none"
-                priority
-              />
-            </div>
-          </div>
-        </div>
+        {/* === FLORAL BACKGROUND === */}
+        <Image
+          alt=""
+          src="/images/floral.png"
+          fill
+          className="object-cover pointer-events-none"
+          priority
+        />
 
         {/* === NAV TOGGLE === */}
         <div className="absolute left-1/2 -translate-x-1/2 top-[calc(50%-394.06px)] -translate-y-1/2 backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px]">
