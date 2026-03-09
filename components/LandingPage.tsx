@@ -31,9 +31,12 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
       <div className="bg-white relative min-h-screen overflow-hidden">
         {/* === FLORAL BACKGROUND — fades with write view === */}
         <div
-          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-            isWrite ? "opacity-100" : "opacity-0"
-          }`}
+          className="absolute inset-0 transition-opacity ease-in-out"
+          style={{
+            opacity: isWrite ? 1 : 0,
+            transitionDuration: isWrite ? "500ms" : "400ms",
+            transitionDelay: isWrite ? "350ms" : "0ms",
+          }}
         >
           <Image
             alt=""
@@ -97,11 +100,16 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </button>
         </div>
 
-        {/* === WRITE VIEW — fades in/out === */}
+        {/* === WRITE VIEW — fades out first, fades in after read exits === */}
         <div
-          className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-            isWrite ? "opacity-100" : "opacity-0 pointer-events-none"
+          className={`absolute inset-0 transition-opacity ease-in-out ${
+            isWrite ? "" : "pointer-events-none"
           }`}
+          style={{
+            opacity: isWrite ? 1 : 0,
+            transitionDuration: isWrite ? "500ms" : "400ms",
+            transitionDelay: isWrite ? "350ms" : "0ms",
+          }}
         >
           {/* Photo cards strip — positioned above viewport, peeking in */}
           <div
@@ -181,11 +189,16 @@ export function LandingPage({ initialEntries }: LandingPageProps) {
           </div>
         </div>
 
-        {/* === READ VIEW — slides in from right === */}
+        {/* === READ VIEW — fades in after write exits, fades out first === */}
         <div
-          className={`absolute inset-0 top-[120px] transition-transform duration-500 ease-in-out ${
-            isWrite ? "translate-x-full" : "translate-x-0"
+          className={`absolute inset-0 top-[120px] transition-opacity ease-in-out ${
+            isWrite ? "pointer-events-none" : ""
           }`}
+          style={{
+            opacity: isWrite ? 0 : 1,
+            transitionDuration: isWrite ? "400ms" : "500ms",
+            transitionDelay: isWrite ? "0ms" : "350ms",
+          }}
         >
           <div className="h-full overflow-y-auto">
             <ReadCardGrid entries={initialEntries} onCardClick={handleCardClick} />
