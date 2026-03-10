@@ -282,7 +282,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
             transitionDelay: isWriting ? "350ms" : "0ms",
           }}
         >
-          {isWriting && <WritePanel />}
+          {isWriting && <WritePanel onDismiss={() => setTab("write")} />}
         </div>
 
         {/* === MY JOURNAL VIEW — fades in/out like other views === */}
