@@ -58,9 +58,5 @@ export function MyJournalView({ onCardClick, onWriteClick }: MyJournalViewProps)
     );
   }
 
-  return (
-    <div className="pt-[80px] md:pt-[100px]">
-      <ReadCardGrid entries={entries} onCardClick={onCardClick} />
-    </div>
-  );
+  return <ReadCardGrid entries={entries} onCardClick={onCardClick} />;
 }

@@ -300,12 +300,14 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
             transitionDelay: isMyJournal ? "350ms" : "0ms",
           }}
         >
-          {isMyJournal && (
-            <MyJournalView
-              onCardClick={handleCardClick}
-              onWriteClick={() => setTab("write")}
-            />
-          )}
+          <div className="h-full overflow-y-auto">
+            {isMyJournal && (
+              <MyJournalView
+                onCardClick={handleCardClick}
+                onWriteClick={() => setTab("write")}
+              />
+            )}
+          </div>
         </div>
       </div>
 
