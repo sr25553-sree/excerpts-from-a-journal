@@ -8,15 +8,26 @@ import { saveEntryId } from "@/lib/myJournal";
 const MAX_LENGTH = 5000;
 
 const CARD_TYPES = [
-  { id: 1, src: "/images/card-type-1.svg" },
-  { id: 2, src: "/images/card-type-2.svg" },
-  { id: 3, src: "/images/card-type-3.svg" },
-  { id: 4, src: "/images/card-type-4.svg" },
-  { id: 5, src: "/images/card-type-5.svg" },
-  { id: 6, src: "/images/card-type-6.svg" },
+  { id: 1, src: "/images/card-type-1.svg", color: "#f4f4ed", border: "#FF661E" },
+  { id: 2, src: "/images/card-type-2.svg", color: "#F995D6", border: null },
+  { id: 3, src: "/images/card-type-3.svg", color: "#FF661E", border: null },
+  { id: 4, src: "/images/card-type-4.svg", color: "#DDD431", border: null },
+  { id: 5, src: "/images/card-type-5.svg", color: "#87A4FF", border: null },
+  { id: 6, src: "/images/card-type-6.svg", color: "#f4f4ed", border: "#DDD431" },
+  // card-type-6 reused with a different swatch color for the 7th option
 ];
 
-// Scaled-up card shadow for the large journal preview
+// Swatch colors matching the Figma — 7 colored circles
+const SWATCHES = [
+  { cardId: 1, fill: "#f4f4ed", stroke: "#FF661E" },   // cream with orange dashed outline
+  { cardId: 2, fill: "#F995D6", stroke: null },          // pink
+  { cardId: 3, fill: "#FF661E", stroke: null },          // orange
+  { cardId: 4, fill: "#DDD431", stroke: null },          // yellow
+  { cardId: 5, fill: "#87A4FF", stroke: null },          // blue
+  { cardId: 6, fill: "#f4f4ed", stroke: "#DDD431" },    // cream with yellow outline
+  { cardId: 5, fill: "#B4A7D6", stroke: null },          // lavender (reuses card 5)
+];
+
 const JOURNAL_SHADOW =
   "102.395px 35.373px 29.788px 0px rgba(0,0,0,0), 65.16px 22.341px 27.926px 0px rgba(0,0,0,0.01), 37.235px 13.032px 24.202px 0px rgba(0,0,0,0.05), 16.756px 5.585px 16.756px 0px rgba(0,0,0,0.09), 3.723px 1.862px 9.309px 0px rgba(0,0,0,0.1)";
 
@@ -30,7 +41,7 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
   const [content, setContent] = useState("");
   const [placeholder, setPlaceholder] = useState("");
   const [phase, setPhase] = useState<Phase>("writing");
-  const [selectedCard, setSelectedCard] = useState(2); // default to card type 2 (orange dashed frame)
+  const [selectedSwatch, setSelectedSwatch] = useState(0);
   const [entryId, setEntryId] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -74,7 +85,7 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
   const handleReset = useCallback(() => {
     setContent("");
     setEntryId(null);
-    setSelectedCard(2);
+    setSelectedSwatch(0);
     setPhase("writing");
     setPlaceholder(getRandomPrompt());
   }, []);
@@ -106,65 +117,67 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
 
   // === PAPER PICKER STATE ===
   if (phase === "picking" || phase === "posting") {
-    const cardSrc = CARD_TYPES.find(c => c.id === selectedCard)?.src ?? CARD_TYPES[0].src;
+    const swatch = SWATCHES[selectedSwatch];
+    const cardSrc = CARD_TYPES.find(c => c.id === swatch.cardId)?.src ?? CARD_TYPES[0].src;
     const canPost = phase === "picking";
 
     return (
       <>
-        {/* Large journal card preview — left side */}
+        {/* Large journal card preview — left side, matching Figma position */}
         <div
-          className="absolute left-[calc(50%-268px)] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[533px] h-[754px] overflow-hidden"
+          className="absolute left-[calc(50%-268.43px)] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[533.132px] h-[754px] overflow-hidden"
           style={{ boxShadow: JOURNAL_SHADOW }}
         >
-          {/* Card frame SVG */}
           <Image
             alt=""
             src={cardSrc}
             fill
             className="object-cover pointer-events-none"
           />
-          {/* Journal text overlay */}
-          <div className="absolute inset-0 flex items-center justify-center px-[60px]">
-            <p className="font-handwritten text-[30px] leading-[35px] text-black text-center line-clamp-[16] overflow-hidden">
+          {/* Journal text — positioned at top: 342px per Figma, centered */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-[342px] w-[389px]">
+            <p className="font-handwritten text-[30px] leading-[35px] text-black text-center">
               {content}
             </p>
           </div>
         </div>
 
-        {/* Right panel — pick a paper + post button */}
-        <div className="absolute left-[calc(50%+100px)] top-1/2 -translate-y-1/2 flex flex-col items-center gap-[40px]">
+        {/* Right panel — anchored to match Figma */}
+        <div className="absolute left-[calc(50%+100px)] top-1/2 -translate-y-1/2 flex flex-col items-center">
           {/* "pick a paper" label */}
           <p
-            className="text-[20px] text-center whitespace-nowrap"
+            className="text-[20px] text-center whitespace-nowrap mb-[24px]"
             style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 400, color: "rgba(13,13,13,0.5)" }}
           >
             pick a paper
           </p>
 
-          {/* Card type swatches */}
-          <div className="flex gap-[12px]">
-            {CARD_TYPES.map((card) => (
+          {/* Color circle swatches */}
+          <div className="flex gap-[16px] mb-[50px]">
+            {SWATCHES.map((sw, i) => (
               <button
-                key={card.id}
-                onClick={() => setSelectedCard(card.id)}
-                className={`relative w-[56px] h-[56px] rounded-[12px] overflow-hidden cursor-pointer transition-all ${
-                  selectedCard === card.id
-                    ? "ring-2 ring-black ring-offset-2 scale-110"
-                    : "hover:scale-105"
+                key={i}
+                onClick={() => setSelectedSwatch(i)}
+                className={`w-[40px] h-[40px] rounded-full cursor-pointer transition-transform ${
+                  selectedSwatch === i ? "scale-110" : "hover:scale-105"
                 }`}
-              >
-                <Image
-                  alt={`Paper style ${card.id}`}
-                  src={card.src}
-                  fill
-                  className="object-cover"
-                />
-              </button>
+                style={{
+                  backgroundColor: sw.fill,
+                  border: selectedSwatch === i
+                    ? `2px solid ${sw.stroke ?? sw.fill}`
+                    : sw.stroke
+                      ? `1.5px solid ${sw.stroke}`
+                      : `1.5px solid rgba(0,0,0,0.08)`,
+                  boxShadow: selectedSwatch === i
+                    ? `0 0 0 3px white, 0 0 0 5px ${sw.stroke ?? sw.fill}`
+                    : "none",
+                }}
+              />
             ))}
           </div>
 
           {/* "Post your journal" button */}
-          <div className="flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)]">
+          <div className="flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)] mb-[30px] relative">
             <button
               onClick={handlePost}
               disabled={!canPost}
