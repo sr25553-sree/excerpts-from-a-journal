@@ -55,6 +55,9 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           className="hidden md:flex absolute right-[100px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[40px] z-10"
           style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "20px", color: "#7B7B7B" }}
         >
+          <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isWrite ? "#000" : "inherit" }}>
+            Home
+          </button>
           <button onClick={() => setTab("about")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isAbout ? "#000" : "inherit" }}>
             About
           </button>
