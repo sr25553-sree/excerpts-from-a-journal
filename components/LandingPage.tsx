@@ -7,7 +7,7 @@ import { ReadCardGrid, getCardType } from "./ReadCardGrid";
 import { CardOverlay } from "./CardOverlay";
 import type { Entry } from "@/lib/types";
 
-type Tab = "write" | "read";
+type Tab = "write" | "read" | "about";
 
 const CARD_SHADOW =
   "41.727px 14.415px 12.139px 0px rgba(0,0,0,0), 26.554px 9.104px 11.38px 0px rgba(0,0,0,0.01), 15.174px 5.311px 9.863px 0px rgba(0,0,0,0.05), 6.828px 2.276px 6.828px 0px rgba(0,0,0,0.09), 1.517px 0.759px 3.793px 0px rgba(0,0,0,0.1)";
@@ -26,17 +26,19 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
   }, []);
 
   const isWrite = tab === "write";
+  const isRead = tab === "read";
+  const isAbout = tab === "about";
 
   return (
     <>
       <div className="bg-white relative min-h-screen overflow-hidden">
-        {/* === FLORAL BACKGROUND — fades with write view === */}
+        {/* === FLORAL BACKGROUND — fades with write/about view === */}
         <div
           className="absolute inset-0 transition-opacity ease-in-out"
           style={{
-            opacity: isWrite ? 1 : 0,
-            transitionDuration: isWrite ? "500ms" : "400ms",
-            transitionDelay: isWrite ? "350ms" : "0ms",
+            opacity: isRead ? 0 : 1,
+            transitionDuration: isRead ? "400ms" : "500ms",
+            transitionDelay: isRead ? "0ms" : "350ms",
           }}
         >
           <Image
@@ -53,9 +55,9 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           className="hidden md:flex absolute right-[100px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[40px] z-10"
           style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "20px", color: "#7B7B7B" }}
         >
-          <Link href="/about" className="no-underline hover:text-black transition-colors" style={{ color: "inherit" }}>
+          <button onClick={() => setTab("about")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isAbout ? "#000" : "inherit" }}>
             About
-          </Link>
+          </button>
           <Link href="/my-journal" className="no-underline hover:text-black transition-colors whitespace-nowrap" style={{ color: "inherit" }}>
             My journal
           </Link>
@@ -93,7 +95,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
             onClick={() => setTab("read")}
             className="flex items-center justify-center overflow-clip px-[30.875px] py-[18.525px] relative rounded-[61.75px] shrink-0 cursor-pointer"
             style={
-              !isWrite
+              isRead
                 ? {
                     background: "rgba(252,255,84,0.94)",
                     boxShadow:
@@ -104,17 +106,17 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           >
             <span
               className="capitalize font-medium leading-normal text-[20px] whitespace-nowrap relative shrink-0"
-              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: !isWrite ? "#0e0e0e" : "#5f5f5f" }}
+              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: isRead ? "#0e0e0e" : "#5f5f5f" }}
             >
               Read
             </span>
-            {!isWrite && (
+            {isRead && (
               <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_2.47px_0px_0px_rgba(255,255,255,0.5)]" />
             )}
           </button>
         </div>
 
-        {/* === WRITE VIEW — fades out first, fades in after read exits === */}
+        {/* === WRITE VIEW — fades out first, fades in after read/about exits === */}
         <div
           className={`absolute inset-0 transition-opacity ease-in-out ${
             isWrite ? "" : "pointer-events-none"
@@ -214,16 +216,49 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
         {/* === READ VIEW — fades in after write exits, fades out first === */}
         <div
           className={`absolute inset-0 top-[80px] md:top-[144px] transition-opacity ease-in-out ${
-            isWrite ? "pointer-events-none" : ""
+            isRead ? "" : "pointer-events-none"
           }`}
           style={{
-            opacity: isWrite ? 0 : 1,
-            transitionDuration: isWrite ? "400ms" : "500ms",
-            transitionDelay: isWrite ? "0ms" : "350ms",
+            opacity: isRead ? 1 : 0,
+            transitionDuration: isRead ? "500ms" : "400ms",
+            transitionDelay: isRead ? "350ms" : "0ms",
           }}
         >
           <div className="h-full overflow-y-auto">
             <ReadCardGrid entries={initialEntries} onCardClick={handleCardClick} />
+          </div>
+        </div>
+
+        {/* === ABOUT VIEW — fades in/out like other views === */}
+        <div
+          className={`absolute inset-0 transition-opacity ease-in-out ${
+            isAbout ? "" : "pointer-events-none"
+          }`}
+          style={{
+            opacity: isAbout ? 1 : 0,
+            transitionDuration: isAbout ? "500ms" : "400ms",
+            transitionDelay: isAbout ? "350ms" : "0ms",
+          }}
+        >
+          <div className="flex items-center justify-center min-h-screen px-6">
+            <div className="w-full max-w-[664px] text-center font-handwritten text-[25px] leading-[30px] text-black">
+              <p className="mb-[30px]">Dear friend,</p>
+              <p className="mb-[30px]">
+                I know there&apos;s a version of you that exists only when no one&apos;s watching. The one who replays conversations. Who stares at the wall a second too long. Who feels things so specifically it seems impossible anyone else could understand.
+              </p>
+              <p className="mb-[30px]">
+                This journal is for that version of you. The idea is simple. Read what someone else felt, and the loneliness loosens just a little. Write what you&apos;ve been carrying, and the weight shifts.
+              </p>
+              <p className="mb-[30px]">
+                That&apos;s the whole thing. A page for what you feel. A reminder that feeling it doesn&apos;t make you fragile. It makes you honest.
+              </p>
+              <p className="mb-[30px]">Welcome to Excerpts from a Journal.</p>
+              <p>
+                love,
+                <br />
+                Sree
+              </p>
+            </div>
           </div>
         </div>
       </div>
