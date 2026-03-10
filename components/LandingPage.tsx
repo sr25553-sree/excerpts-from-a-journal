@@ -39,9 +39,9 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
         <div
           className="absolute inset-0 transition-opacity ease-in-out"
           style={{
-            opacity: (isRead || isMyJournal) ? 0 : 1,
-            transitionDuration: (isRead || isMyJournal) ? "400ms" : "500ms",
-            transitionDelay: (isRead || isMyJournal) ? "0ms" : "350ms",
+            opacity: (isRead || isMyJournal || isWriting) ? 0 : 1,
+            transitionDuration: (isRead || isMyJournal || isWriting) ? "400ms" : "500ms",
+            transitionDelay: (isRead || isMyJournal || isWriting) ? "0ms" : "350ms",
           }}
         >
           <Image
