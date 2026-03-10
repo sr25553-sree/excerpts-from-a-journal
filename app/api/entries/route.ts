@@ -17,6 +17,26 @@ export async function GET(request: NextRequest) {
 
   const supabase = createServerClient();
 
+  // Fetch specific entries by IDs (for "My journal")
+  const idsParam = searchParams.get("ids");
+  if (idsParam) {
+    const ids = idsParam.split(",").slice(0, 100);
+    const { data, error } = await supabase
+      .from("entries")
+      .select("id, content, created_at, mood")
+      .in("id", ids)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return NextResponse.json(
+        { error: "Failed to fetch entries" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ entries: data ?? [], nextCursor: null, hasMore: false });
+  }
+
   let query = supabase
     .from("entries")
     .select("id, content, created_at, mood")

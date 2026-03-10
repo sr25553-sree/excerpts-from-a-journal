@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getRandomPrompt } from "@/lib/prompts";
 import { MoodPicker } from "./MoodPicker";
+import { saveEntryId } from "@/lib/myJournal";
 import type { Mood } from "@/lib/types";
 
 const MAX_LENGTH = 5000;
@@ -41,6 +42,7 @@ export function EntryForm() {
       }
 
       const data = await response.json();
+      saveEntryId(data.id);
       setEntryId(data.id);
       setStatus("submitted");
     } catch (err) {

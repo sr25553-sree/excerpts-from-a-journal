@@ -5,9 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReadCardGrid, getCardType } from "./ReadCardGrid";
 import { CardOverlay } from "./CardOverlay";
+import { MyJournalView } from "./MyJournalView";
 import type { Entry } from "@/lib/types";
 
-type Tab = "write" | "read" | "about";
+type Tab = "write" | "read" | "about" | "my-journal";
 
 const CARD_SHADOW =
   "41.727px 14.415px 12.139px 0px rgba(0,0,0,0), 26.554px 9.104px 11.38px 0px rgba(0,0,0,0.01), 15.174px 5.311px 9.863px 0px rgba(0,0,0,0.05), 6.828px 2.276px 6.828px 0px rgba(0,0,0,0.09), 1.517px 0.759px 3.793px 0px rgba(0,0,0,0.1)";
@@ -28,6 +29,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
   const isWrite = tab === "write";
   const isRead = tab === "read";
   const isAbout = tab === "about";
+  const isMyJournal = tab === "my-journal";
 
   return (
     <>
@@ -36,9 +38,9 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
         <div
           className="absolute inset-0 transition-opacity ease-in-out"
           style={{
-            opacity: isRead ? 0 : 1,
-            transitionDuration: isRead ? "400ms" : "500ms",
-            transitionDelay: isRead ? "0ms" : "350ms",
+            opacity: (isRead || isMyJournal) ? 0 : 1,
+            transitionDuration: (isRead || isMyJournal) ? "400ms" : "500ms",
+            transitionDelay: (isRead || isMyJournal) ? "0ms" : "350ms",
           }}
         >
           <Image
@@ -61,15 +63,15 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           <button onClick={() => setTab("about")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isAbout ? "#000" : "inherit" }}>
             About
           </button>
-          <Link href="/my-journal" className="no-underline hover:text-black transition-colors whitespace-nowrap" style={{ color: "inherit" }}>
+          <button onClick={() => setTab("my-journal")} className="cursor-pointer hover:text-black transition-colors whitespace-nowrap" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isMyJournal ? "#000" : "inherit" }}>
             My journal
-          </Link>
+          </button>
         </div>
 
         {/* === NAV TOGGLE — hidden on about === */}
         <div
           className="absolute left-1/2 -translate-x-1/2 top-[24px] md:top-[calc(50%-394.06px)] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10 transition-opacity duration-400 ease-in-out"
-          style={{ opacity: isAbout ? 0 : 1, pointerEvents: isAbout ? "none" : "auto" }}
+          style={{ opacity: (isAbout || isMyJournal) ? 0 : 1, pointerEvents: (isAbout || isMyJournal) ? "none" : "auto" }}
         >
           {/* Write tab */}
           <button
@@ -266,6 +268,25 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* === MY JOURNAL VIEW — fades in/out like other views === */}
+        <div
+          className={`absolute inset-0 transition-opacity ease-in-out ${
+            isMyJournal ? "" : "pointer-events-none"
+          }`}
+          style={{
+            opacity: isMyJournal ? 1 : 0,
+            transitionDuration: isMyJournal ? "500ms" : "400ms",
+            transitionDelay: isMyJournal ? "350ms" : "0ms",
+          }}
+        >
+          {isMyJournal && (
+            <MyJournalView
+              onCardClick={handleCardClick}
+              onWriteClick={() => setTab("write")}
+            />
+          )}
         </div>
       </div>
 
