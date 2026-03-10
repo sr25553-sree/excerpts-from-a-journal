@@ -2,13 +2,13 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { ReadCardGrid, getCardType } from "./ReadCardGrid";
 import { CardOverlay } from "./CardOverlay";
 import { MyJournalView } from "./MyJournalView";
+import { EntryForm } from "./EntryForm";
 import type { Entry } from "@/lib/types";
 
-type Tab = "write" | "read" | "about" | "my-journal";
+type Tab = "write" | "read" | "about" | "my-journal" | "writing";
 
 const CARD_SHADOW =
   "41.727px 14.415px 12.139px 0px rgba(0,0,0,0), 26.554px 9.104px 11.38px 0px rgba(0,0,0,0.01), 15.174px 5.311px 9.863px 0px rgba(0,0,0,0.05), 6.828px 2.276px 6.828px 0px rgba(0,0,0,0.09), 1.517px 0.759px 3.793px 0px rgba(0,0,0,0.1)";
@@ -30,6 +30,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
   const isRead = tab === "read";
   const isAbout = tab === "about";
   const isMyJournal = tab === "my-journal";
+  const isWriting = tab === "writing";
 
   return (
     <>
@@ -57,7 +58,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           className="hidden md:flex absolute right-[80px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[32px] z-10"
           style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B" }}
         >
-          <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isWrite ? "#000" : "inherit" }}>
+          <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: (isWrite || isWriting) ? "#000" : "inherit" }}>
             Home
           </button>
           <button onClick={() => setTab("about")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isAbout ? "#000" : "inherit" }}>
@@ -75,10 +76,10 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
         >
           {/* Write tab */}
           <button
-            onClick={() => setTab("write")}
+            onClick={() => setTab("writing")}
             className="flex items-center justify-center overflow-clip px-[37.05px] py-[19.76px] relative rounded-[61.75px] shrink-0 cursor-pointer"
             style={
-              isWrite
+              (isWrite || isWriting)
                 ? {
                     background: "rgba(252,255,84,0.94)",
                     boxShadow:
@@ -89,11 +90,11 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           >
             <span
               className="capitalize font-medium leading-normal text-[20px] whitespace-nowrap relative shrink-0"
-              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: isWrite ? "#0e0e0e" : "#5f5f5f" }}
+              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: (isWrite || isWriting) ? "#0e0e0e" : "#5f5f5f" }}
             >
               Write
             </span>
-            {isWrite && (
+            {(isWrite || isWriting) && (
               <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_2.47px_0px_0px_rgba(255,255,255,0.5)]" />
             )}
           </button>
@@ -192,9 +193,9 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           <div
             className="absolute left-1/2 top-[calc(50%+56px)] md:top-[calc(50%+134px)] -translate-x-1/2 -translate-y-1/2 scale-[0.7] md:scale-[0.9] flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)]"
           >
-            <Link
-              href="/write"
-              className="flex items-center justify-center overflow-clip px-[62.184px] py-[30px] relative rounded-[153.388px] shrink-0 no-underline"
+            <button
+              onClick={() => setTab("writing")}
+              className="flex items-center justify-center overflow-clip px-[62.184px] py-[30px] relative rounded-[153.388px] shrink-0 cursor-pointer"
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml;utf8,<svg viewBox='0 0 317.37 94' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='0.20000000298023224'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(19.855 5.0917 -1.0002 5.8809 89.31 -9.7917)'><stop stop-color='rgba(255,255,255,1)' offset='0'/><stop stop-color='rgba(255,255,255,0)' offset='1'/></radialGradient></defs></svg>\"), linear-gradient(90deg, rgb(39, 39, 39) 0%, rgb(39, 39, 39) 100%)",
@@ -207,7 +208,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
               </span>
               {/* Inner highlight + bottom bevel */}
               <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_2.073px_0px_0px_rgba(255,255,255,0.3),inset_0px_-6.218px_0px_0px_#080808]" />
-            </Link>
+            </button>
             {/* Outer pill inner shadow */}
             <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_4.146px_0px_rgba(0,0,0,0.08)]" />
           </div>
@@ -270,9 +271,27 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           </div>
         </div>
 
-        {/* === MY JOURNAL VIEW — fades in/out like other views === */}
+        {/* === WRITING VIEW — inline entry form === */}
         <div
           className={`absolute inset-0 transition-opacity ease-in-out ${
+            isWriting ? "" : "pointer-events-none"
+          }`}
+          style={{
+            opacity: isWriting ? 1 : 0,
+            transitionDuration: isWriting ? "500ms" : "400ms",
+            transitionDelay: isWriting ? "350ms" : "0ms",
+          }}
+        >
+          <div className="flex items-center justify-center min-h-screen px-6">
+            <div className="w-full max-w-[700px]">
+              {isWriting && <EntryForm />}
+            </div>
+          </div>
+        </div>
+
+        {/* === MY JOURNAL VIEW — fades in/out like other views === */}
+        <div
+          className={`absolute inset-0 top-[80px] md:top-[144px] transition-opacity ease-in-out ${
             isMyJournal ? "" : "pointer-events-none"
           }`}
           style={{

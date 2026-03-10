@@ -2,9 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { getRandomPrompt } from "@/lib/prompts";
-import { MoodPicker } from "./MoodPicker";
 import { saveEntryId } from "@/lib/myJournal";
-import type { Mood } from "@/lib/types";
 
 const MAX_LENGTH = 5000;
 
@@ -15,7 +13,6 @@ export function EntryForm() {
     "idle" | "submitting" | "submitted" | "error"
   >("idle");
   const [entryId, setEntryId] = useState<string | null>(null);
-  const [mood, setMood] = useState<Mood | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -33,7 +30,7 @@ export function EntryForm() {
       const response = await fetch("/api/entries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: trimmed, mood }),
+        body: JSON.stringify({ content: trimmed }),
       });
 
       if (!response.ok) {
@@ -55,7 +52,6 @@ export function EntryForm() {
 
   const handleReset = useCallback(() => {
     setContent("");
-    setMood(null);
     setEntryId(null);
     setStatus("idle");
     setPlaceholder(getRandomPrompt());
@@ -104,13 +100,6 @@ export function EntryForm() {
         rows={12}
         autoFocus
       />
-
-      <div className="mt-4 mb-2">
-        <p className="mb-3 font-sans text-xs text-ink-faint">
-          how does this feel?
-        </p>
-        <MoodPicker selected={mood} onChange={setMood} />
-      </div>
 
       <div className="mt-6 flex items-center justify-between border-t border-rule pt-6">
         <span
