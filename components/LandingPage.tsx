@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ReadCardGrid, getCardType } from "./ReadCardGrid";
 import { CardOverlay } from "./CardOverlay";
 import { MyJournalView } from "./MyJournalView";
-import { EntryForm } from "./EntryForm";
+import { WritePanel } from "./WritePanel";
 import type { Entry } from "@/lib/types";
 
 type Tab = "write" | "read" | "about" | "my-journal" | "writing";
@@ -71,7 +71,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
         {/* === NAV TOGGLE — hidden on about === */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 top-[24px] md:top-[calc(50%-394.06px)] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10 transition-opacity duration-400 ease-in-out"
+          className={`absolute left-1/2 -translate-x-1/2 top-[24px] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10 transition-all duration-400 ease-in-out ${isWriting ? "md:top-[calc(50%-374.06px)]" : "md:top-[calc(50%-394.06px)]"}`}
           style={{ opacity: (isAbout || isMyJournal) ? 0 : 1, pointerEvents: (isAbout || isMyJournal) ? "none" : "auto" }}
         >
           {/* Write tab */}
@@ -81,7 +81,10 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
             style={
               (isWrite || isWriting)
                 ? {
-                    background: "rgba(252,255,84,0.94)",
+                    backgroundImage: isWriting
+                      ? "linear-gradient(179.4deg, rgb(231,255,122) 1.013%, rgb(216,255,0) 105.12%)"
+                      : undefined,
+                    background: isWriting ? undefined : "rgba(252,255,84,0.94)",
                     boxShadow:
                       "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
                   }
@@ -271,7 +274,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           </div>
         </div>
 
-        {/* === WRITING VIEW — inline entry form === */}
+        {/* === WRITING VIEW — panel with textarea + submit === */}
         <div
           className={`absolute inset-0 transition-opacity ease-in-out ${
             isWriting ? "" : "pointer-events-none"
@@ -282,11 +285,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
             transitionDelay: isWriting ? "350ms" : "0ms",
           }}
         >
-          <div className="flex items-center justify-center min-h-screen px-6">
-            <div className="w-full max-w-[700px]">
-              {isWriting && <EntryForm />}
-            </div>
-          </div>
+          {isWriting && <WritePanel />}
         </div>
 
         {/* === MY JOURNAL VIEW — fades in/out like other views === */}
