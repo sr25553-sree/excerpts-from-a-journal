@@ -6,6 +6,8 @@ create table entries (
   id uuid default gen_random_uuid() primary key,
   content text not null,
   mood text check (mood in ('grief', 'joy', 'longing', 'anger', 'tenderness', 'confusion', 'relief')),
+  location text,
+  entry_date date default current_date,
   created_at timestamp with time zone default now(),
   is_approved boolean default true
 );

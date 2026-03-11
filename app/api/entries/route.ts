@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const ids = idsParam.split(",").slice(0, 100);
     const { data, error } = await supabase
       .from("entries")
-      .select("id, content, created_at, mood")
+      .select("id, content, created_at, mood, location, entry_date")
       .in("id", ids)
       .order("created_at", { ascending: false });
 
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 
   let query = supabase
     .from("entries")
-    .select("id, content, created_at, mood")
+    .select("id, content, created_at, mood, location, entry_date")
     .eq("is_approved", true)
     .order("created_at", { ascending: false })
     .limit(limit + 1);
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  let body: { content?: string; mood?: string };
+  let body: { content?: string; mood?: string; location?: string };
 
   try {
     body = await request.json();
@@ -100,11 +100,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid mood" }, { status: 400 });
   }
 
+  const location = body.location?.trim().slice(0, 200) || null;
+
   const supabase = createServerClient();
 
   const { data, error } = await supabase
     .from("entries")
-    .insert({ content, mood })
+    .insert({ content, mood, location })
     .select("id, created_at")
     .single();
 

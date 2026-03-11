@@ -43,6 +43,7 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
   const [phase, setPhase] = useState<Phase>("writing");
   const [selectedSwatch, setSelectedSwatch] = useState(0);
   const [entryId, setEntryId] = useState<string | null>(null);
+  const [location, setLocation] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
       const response = await fetch("/api/entries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: trimmed }),
+        body: JSON.stringify({ content: trimmed, location: location.trim() || undefined }),
       });
 
       if (!response.ok) {
@@ -80,12 +81,13 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
     } catch {
       setPhase("picking");
     }
-  }, [content, phase]);
+  }, [content, location, phase]);
 
   const handleReset = useCallback(() => {
     setContent("");
     setEntryId(null);
     setSelectedSwatch(0);
+    setLocation("");
     setPhase("writing");
     setPlaceholder(getRandomPrompt());
   }, []);
@@ -174,6 +176,18 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
                 }}
               />
             ))}
+          </div>
+
+          {/* Location input */}
+          <div className="mb-[30px] w-full max-w-[340px]">
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="where are you writing from?"
+              maxLength={200}
+              className="w-full bg-transparent border-b border-[rgba(0,0,0,0.15)] pb-[8px] font-handwritten text-[18px] text-black placeholder:text-[rgba(13,13,13,0.3)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] transition-colors text-center"
+            />
           </div>
 
           {/* "Post your journal" button */}

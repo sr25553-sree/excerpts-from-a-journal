@@ -51,7 +51,7 @@ export default async function EntryPage({ params }: PageProps) {
 
   const { data: entry } = await supabase
     .from("entries")
-    .select("id, content, created_at, mood")
+    .select("id, content, created_at, mood, location, entry_date")
     .eq("id", id)
     .eq("is_approved", true)
     .single();
@@ -77,7 +77,17 @@ export default async function EntryPage({ params }: PageProps) {
 
         <div className="mt-12 border-t border-rule pt-8">
           <div className="flex items-center justify-between font-sans text-xs text-ink-faint">
-            <span>{relativeTime(entry.created_at)}</span>
+            <div className="flex flex-col gap-1">
+              <span>{relativeTime(entry.created_at)}</span>
+              {(entry.location || entry.entry_date) && (
+                <span className="text-ink-faint/70">
+                  {[
+                    entry.entry_date && new Date(entry.entry_date + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+                    entry.location,
+                  ].filter(Boolean).join(" · ")}
+                </span>
+              )}
+            </div>
             <RandomButton />
           </div>
         </div>

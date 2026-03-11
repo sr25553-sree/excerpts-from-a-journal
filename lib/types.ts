@@ -18,6 +18,8 @@ export interface Entry {
   id: string;
   content: string;
   mood: Mood | null;
+  location: string | null;
+  entry_date: string | null;
   created_at: string;
   is_approved: boolean;
 }

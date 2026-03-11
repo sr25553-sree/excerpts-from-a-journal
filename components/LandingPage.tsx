@@ -317,6 +317,8 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           <CardOverlay
             content={entry.content}
             cardSrc={getCardType(selectedCard.cardIndex)}
+            location={entry.location}
+            entryDate={entry.entry_date}
             onClose={() => setSelectedCard(null)}
           />
         );

@@ -6,10 +6,12 @@ import Image from "next/image";
 interface CardOverlayProps {
   content: string;
   cardSrc: string;
+  location?: string | null;
+  entryDate?: string | null;
   onClose: () => void;
 }
 
-export function CardOverlay({ content, cardSrc, onClose }: CardOverlayProps) {
+export function CardOverlay({ content, cardSrc, location, entryDate, onClose }: CardOverlayProps) {
   const [closing, setClosing] = useState(false);
 
   const handleClose = useCallback(() => {
@@ -61,6 +63,19 @@ export function CardOverlay({ content, cardSrc, onClose }: CardOverlayProps) {
           {content}
         </p>
       </div>
+
+      {/* Location & date */}
+      {(location || entryDate) && (
+        <p
+          className="relative mt-4 text-[13px] text-white/70 text-center"
+          style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+        >
+          {[
+            entryDate && new Date(entryDate + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }),
+            location,
+          ].filter(Boolean).join(" · ")}
+        </p>
+      )}
 
       {/* Close button */}
       <button
