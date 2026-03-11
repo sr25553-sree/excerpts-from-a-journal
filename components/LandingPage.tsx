@@ -61,14 +61,67 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
           <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isWrite ? "#000" : "inherit" }}>
             Home
           </button>
-          <button onClick={() => setTab("read")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isRead ? "#000" : "inherit" }}>
-            Read
-          </button>
           <button onClick={() => setTab("about")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isAbout ? "#000" : "inherit" }}>
             About
           </button>
           <button onClick={() => setTab("my-journal")} className="cursor-pointer hover:text-black transition-colors whitespace-nowrap" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isMyJournal ? "#000" : "inherit" }}>
             My journal
+          </button>
+        </div>
+
+        {/* === NAV TOGGLE — hidden on about, my-journal, writing === */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-[24px] md:top-[calc(50%-394.06px)] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10 transition-opacity duration-400 ease-in-out"
+          style={{ opacity: (isAbout || isMyJournal || isWriting) ? 0 : 1, pointerEvents: (isAbout || isMyJournal || isWriting) ? "none" : "auto" }}
+        >
+          {/* Write tab */}
+          <button
+            onClick={() => setTab("writing")}
+            className="flex items-center justify-center overflow-clip px-[37.05px] py-[19.76px] relative rounded-[61.75px] shrink-0 cursor-pointer"
+            style={
+              (isWrite || isWriting)
+                ? {
+                    background: "rgba(252,255,84,0.94)",
+                    boxShadow:
+                      "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
+                  }
+                : undefined
+            }
+          >
+            <span
+              className="capitalize font-medium leading-normal text-[20px] whitespace-nowrap relative shrink-0"
+              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: (isWrite || isWriting) ? "#0e0e0e" : "#5f5f5f" }}
+            >
+              Write
+            </span>
+            {(isWrite || isWriting) && (
+              <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_2.47px_0px_0px_rgba(255,255,255,0.5)]" />
+            )}
+          </button>
+
+          {/* Read tab */}
+          <button
+            onClick={() => setTab("read")}
+            className="flex items-center justify-center overflow-clip px-[30.875px] py-[18.525px] relative rounded-[61.75px] shrink-0 cursor-pointer"
+            style={
+              isRead
+                ? {
+                    background: "rgba(252,255,84,0.94)",
+                    boxShadow:
+                      "0px 4.94px 17.29px 0px rgba(0,0,0,0.05), 0px 1.235px 0px 0px rgba(0,0,0,0.1)",
+                  }
+                : undefined
+            }
+          >
+            <span
+              className="capitalize font-medium leading-normal text-[20px] whitespace-nowrap relative shrink-0"
+              style={{ fontFamily: "'Helvetica Neue', sans-serif", color: isRead ? "#0e0e0e" : "#5f5f5f" }}
+            >
+              Read
+            </span>
+            {isRead && (
+              <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_2.47px_0px_0px_rgba(255,255,255,0.5)]" />
+            )}
           </button>
         </div>
 
