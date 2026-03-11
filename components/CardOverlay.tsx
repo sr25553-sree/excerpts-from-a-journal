@@ -16,7 +16,7 @@ export function CardOverlay({ content, cardSrc, location, entryDate, onClose }: 
 
   const handleClose = useCallback(() => {
     setClosing(true);
-    setTimeout(onClose, 250);
+    setTimeout(onClose, 400);
   }, [onClose]);
 
   useEffect(() => {
@@ -36,9 +36,12 @@ export function CardOverlay({ content, cardSrc, location, entryDate, onClose }: 
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-250 ${
-        closing ? "opacity-0" : "opacity-100"
-      }`}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center transition-opacity ease-in-out"
+      style={{
+        opacity: closing ? 0 : 1,
+        transitionDuration: closing ? "400ms" : "500ms",
+        transitionDelay: closing ? "0ms" : "0ms",
+      }}
     >
       {/* Backdrop */}
       <div

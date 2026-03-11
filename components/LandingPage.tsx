@@ -81,8 +81,8 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
         {/* === TOP-RIGHT NAV LINKS === */}
         <div
-          className="hidden md:flex absolute right-[80px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[32px] z-10 transition-opacity duration-400 ease-in-out"
-          style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B" }}
+          className="hidden md:flex absolute right-[80px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[32px] z-10 transition-opacity ease-in-out"
+          style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B", transitionDuration: isWriting ? "400ms" : "500ms", transitionDelay: isWriting ? "0ms" : "350ms", opacity: isWriting ? 0 : 1, pointerEvents: isWriting ? "none" as const : "auto" as const }}
         >
           <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isWrite ? "#000" : "inherit" }}>
             Home
@@ -97,8 +97,13 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
 
         {/* === NAV TOGGLE — hidden on about, my-journal, writing === */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 top-[24px] md:top-[calc(50%-394.06px)] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10 transition-opacity duration-400 ease-in-out"
-          style={{ opacity: (isAbout || isMyJournal || isWriting) ? 0 : 1, pointerEvents: (isAbout || isMyJournal || isWriting) ? "none" : "auto" }}
+          className="absolute left-1/2 -translate-x-1/2 top-[24px] md:top-[calc(50%-394.06px)] md:-translate-y-1/2 scale-[0.65] md:scale-[0.8] backdrop-blur-[1.852px] bg-[rgba(0,0,0,0.03)] border-[1.235px] border-[rgba(0,0,0,0.06)] border-solid flex gap-[6px] items-start p-[6.175px] rounded-[61.75px] z-10 transition-opacity ease-in-out"
+          style={{
+            opacity: (isAbout || isMyJournal || isWriting) ? 0 : 1,
+            pointerEvents: (isAbout || isMyJournal || isWriting) ? "none" : "auto",
+            transitionDuration: (isAbout || isMyJournal || isWriting) ? "400ms" : "500ms",
+            transitionDelay: (isAbout || isMyJournal || isWriting) ? "0ms" : "350ms",
+          }}
         >
           {/* Write tab */}
           <button
