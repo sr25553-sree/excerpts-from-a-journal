@@ -56,7 +56,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
         {/* === TOP-RIGHT NAV LINKS === */}
         <div
           className="hidden md:flex absolute right-[80px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[32px] z-10 transition-opacity duration-400 ease-in-out"
-          style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B", opacity: isWriting ? 0 : 1, pointerEvents: isWriting ? "none" : "auto" }}
+          style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B" }}
         >
           <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isWrite ? "#000" : "inherit" }}>
             Home
