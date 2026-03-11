@@ -178,18 +178,6 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
             ))}
           </div>
 
-          {/* Location input */}
-          <div className="mb-[30px] w-full max-w-[340px]">
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="where are you writing from?"
-              maxLength={200}
-              className="w-full bg-transparent border-b border-[rgba(0,0,0,0.15)] pb-[8px] font-handwritten text-[18px] text-black placeholder:text-[rgba(13,13,13,0.3)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] transition-colors text-center"
-            />
-          </div>
-
           {/* "Post your journal" button */}
           <div className="flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)] mb-[30px] relative">
             <button
@@ -241,6 +229,18 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
         autoFocus
         className="w-full h-full resize-none border-0 bg-transparent px-[54px] pt-[53px] pb-[80px] font-handwritten text-[35.199px] leading-[1.4] text-black placeholder:text-[#b0b0b0] focus:outline-none focus:ring-0"
       />
+
+      {/* Location input */}
+      <div className="absolute bottom-[28px] left-[54px]">
+        <input
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="where are you writing from?"
+          maxLength={200}
+          className="bg-transparent border-b border-[rgba(0,0,0,0.1)] pb-[4px] font-handwritten text-[18px] text-black placeholder:text-[#b0b0b0] focus:outline-none focus:border-[rgba(0,0,0,0.3)] transition-colors w-[280px]"
+        />
+      </div>
 
       <button
         onClick={handleNext}
