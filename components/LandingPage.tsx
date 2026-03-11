@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { ReadCardGrid, getCardType } from "./ReadCardGrid";
 import { CardOverlay } from "./CardOverlay";
@@ -18,9 +18,35 @@ interface LandingPageProps {
   totalCount: number;
 }
 
+const VALID_TABS: Tab[] = ["write", "read", "about", "my-journal", "writing"];
+
 export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
-  const [tab, setTab] = useState<Tab>("write");
+  const [tab, setTabState] = useState<Tab>("write");
   const [selectedCard, setSelectedCard] = useState<{ id: string; cardIndex: number } | null>(null);
+
+  // Push history entry when tab changes
+  const setTab = useCallback((newTab: Tab) => {
+    setTabState(newTab);
+    history.pushState({ tab: newTab }, "", undefined);
+  }, []);
+
+  // Listen for browser back/forward
+  useEffect(() => {
+    // Replace initial history entry with current tab
+    history.replaceState({ tab: "write" }, "", undefined);
+
+    function handlePopState(e: PopStateEvent) {
+      const t = e.state?.tab;
+      if (t && VALID_TABS.includes(t)) {
+        setTabState(t);
+      } else {
+        setTabState("write");
+      }
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   const handleCardClick = useCallback((id: string, cardIndex: number) => {
     setSelectedCard({ id, cardIndex });
