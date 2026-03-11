@@ -233,6 +233,22 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
 
   return (
     <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[90vw] max-w-[1072px] h-[496px] bg-[#f7f7f7] rounded-[45px] overflow-hidden">
+      {/* Back button */}
+      <button
+        onClick={onDismiss}
+        className="absolute top-[20px] left-[24px] z-10 flex items-center gap-[6px] cursor-pointer group"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b0b0b0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-black transition-colors">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        <span
+          className="text-[14px] text-[#b0b0b0] group-hover:text-black transition-colors"
+          style={{ fontFamily: "'Helvetica Neue', sans-serif" }}
+        >
+          back
+        </span>
+      </button>
+
       <textarea
         ref={textareaRef}
         value={content}
