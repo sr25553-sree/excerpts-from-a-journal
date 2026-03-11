@@ -14,7 +14,7 @@ const CARD_SHADOW =
   "41.727px 14.415px 12.139px 0px rgba(0,0,0,0), 26.554px 9.104px 11.38px 0px rgba(0,0,0,0.01), 15.174px 5.311px 9.863px 0px rgba(0,0,0,0.05), 6.828px 2.276px 6.828px 0px rgba(0,0,0,0.09), 1.517px 0.759px 3.793px 0px rgba(0,0,0,0.1)";
 
 interface LandingPageProps {
-  initialEntries: Pick<Entry, "id" | "content" | "created_at" | "mood">[];
+  initialEntries: Pick<Entry, "id" | "content" | "created_at" | "mood" | "location" | "entry_date">[];
   totalCount: number;
 }
 

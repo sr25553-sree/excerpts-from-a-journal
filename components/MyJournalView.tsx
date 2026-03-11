@@ -5,7 +5,7 @@ import { getEntryIds } from "@/lib/myJournal";
 import { ReadCardGrid } from "./ReadCardGrid";
 import type { Entry } from "@/lib/types";
 
-type EntryPreview = Pick<Entry, "id" | "content" | "created_at" | "mood">;
+type EntryPreview = Pick<Entry, "id" | "content" | "created_at" | "mood" | "location" | "entry_date">;
 
 interface MyJournalViewProps {
   onCardClick: (id: string, cardIndex: number) => void;

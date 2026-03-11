@@ -20,7 +20,7 @@ export function getCardType(index: number): string {
 }
 
 interface ReadCardGridProps {
-  entries: Pick<Entry, "id" | "content" | "created_at" | "mood">[];
+  entries: Pick<Entry, "id" | "content" | "created_at" | "mood" | "location" | "entry_date">[];
   onCardClick: (id: string, cardIndex: number) => void;
 }
 
