@@ -55,14 +55,12 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
     onPhaseChange?.(phase);
   }, [phase, onPhaseChange]);
 
-  // Fade-in trigger for phase transitions
-  const [phaseVisible, setPhaseVisible] = useState(false);
+  // Track previous phase for fade transitions
+  const [visiblePhase, setVisiblePhase] = useState<Phase>("writing");
   useEffect(() => {
-    setPhaseVisible(false);
-    const raf = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setPhaseVisible(true));
-    });
-    return () => cancelAnimationFrame(raf);
+    // Small delay so the new phase element mounts at opacity 0, then fades in
+    const timer = setTimeout(() => setVisiblePhase(phase), 20);
+    return () => clearTimeout(timer);
   }, [phase]);
 
   const handleNext = useCallback(() => {
@@ -107,46 +105,72 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
     setPlaceholder(getRandomPrompt());
   }, []);
 
-  // === POSTED STATE ===
-  if (phase === "posted" && entryId) {
-    return (
+  const swatch = SWATCHES[selectedSwatch];
+  const cardSrc = CARD_TYPES.find(c => c.id === swatch.cardId)?.src ?? CARD_TYPES[0].src;
+  const canPost = phase === "picking";
+  const isOverLimit = content.length > MAX_LENGTH;
+  const canSubmit = content.trim().length > 0 && !isOverLimit;
+
+  const isPicking = phase === "picking" || phase === "posting";
+  const isPosted = phase === "posted";
+  const isWritingPhase = phase === "writing";
+
+  return (
+    <>
+      {/* === WRITING STATE === */}
       <div
         className="absolute inset-0 transition-opacity ease-in-out"
-        style={{ opacity: phaseVisible ? 1 : 0, transitionDuration: "500ms", transitionDelay: phaseVisible ? "150ms" : "0ms" }}
+        style={{
+          opacity: isWritingPhase && visiblePhase === "writing" ? 1 : 0,
+          transitionDuration: "500ms",
+          transitionDelay: isWritingPhase ? "150ms" : "0ms",
+          pointerEvents: isWritingPhase ? "auto" : "none",
+        }}
       >
-      <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[90vw] max-w-[1072px] h-[496px] bg-[#f7f7f7] rounded-[45px] flex flex-col items-center justify-center gap-6 px-8">
-        <p className="font-handwritten text-[35px] text-black text-center">
-          Your words are out in the world now.
-        </p>
-        <div className="flex gap-8">
-          <a
-            href={`/read/${entryId}`}
-            className="font-handwritten text-[22px] text-[#b0b0b0] underline underline-offset-4 hover:text-black transition-colors"
-          >
-            read your entry
-          </a>
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[90vw] max-w-[1072px] h-[496px] bg-[#f7f7f7] rounded-[45px] overflow-hidden">
+          <textarea
+            ref={textareaRef}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder={placeholder}
+            autoFocus
+            className="w-full h-full resize-none border-0 bg-transparent px-[54px] pt-[53px] pb-[80px] font-handwritten text-[35.199px] leading-[1.4] text-black placeholder:text-[#b0b0b0] focus:outline-none focus:ring-0"
+          />
+
+          {/* Location input */}
+          <div className="absolute bottom-[28px] left-[54px]">
+            <input
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              placeholder="where are you writing from?"
+              maxLength={200}
+              className="bg-transparent border-b border-[rgba(0,0,0,0.1)] pb-[4px] font-handwritten text-[18px] text-black placeholder:text-[#b0b0b0] focus:outline-none focus:border-[rgba(0,0,0,0.3)] transition-colors w-[280px]"
+            />
+          </div>
+
           <button
-            onClick={handleReset}
-            className="font-handwritten text-[22px] text-[#b0b0b0] underline underline-offset-4 hover:text-black transition-colors cursor-pointer"
+            onClick={handleNext}
+            disabled={!canSubmit}
+            className="absolute bottom-[20px] right-[20px] w-[64px] h-[64px] rounded-full bg-[#272727] flex items-center justify-center cursor-pointer transition-opacity disabled:opacity-30 disabled:cursor-default"
           >
-            write another
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5" />
+              <polyline points="5 12 12 5 19 12" />
+            </svg>
           </button>
         </div>
       </div>
-      </div>
-    );
-  }
 
-  // === PAPER PICKER STATE ===
-  if (phase === "picking" || phase === "posting") {
-    const swatch = SWATCHES[selectedSwatch];
-    const cardSrc = CARD_TYPES.find(c => c.id === swatch.cardId)?.src ?? CARD_TYPES[0].src;
-    const canPost = phase === "picking";
-
-    return (
+      {/* === PAPER PICKER STATE === */}
       <div
         className="absolute inset-0 transition-opacity ease-in-out"
-        style={{ opacity: phaseVisible ? 1 : 0, transitionDuration: "500ms", transitionDelay: phaseVisible ? "150ms" : "0ms" }}
+        style={{
+          opacity: isPicking && (visiblePhase === "picking" || visiblePhase === "posting") ? 1 : 0,
+          transitionDuration: "500ms",
+          transitionDelay: isPicking ? "150ms" : "0ms",
+          pointerEvents: isPicking ? "auto" : "none",
+        }}
       >
         {/* Large journal card preview — left side, matching Figma position */}
         <div
@@ -159,7 +183,6 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
             fill
             className="object-cover pointer-events-none"
           />
-          {/* Journal text — positioned at top: 342px per Figma, centered */}
           <div className="absolute left-1/2 -translate-x-1/2 top-[342px] w-[389px]">
             <p className="font-handwritten text-[30px] leading-[35px] text-black text-center">
               {content}
@@ -169,7 +192,6 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
 
         {/* Right panel — anchored to match Figma */}
         <div className="absolute left-[calc(50%+100px)] top-1/2 -translate-y-1/2 flex flex-col items-center">
-          {/* "pick a paper" label */}
           <p
             className="text-[20px] text-center whitespace-nowrap mb-[24px]"
             style={{ fontFamily: "'Roboto', sans-serif", fontWeight: 400, color: "rgba(13,13,13,0.5)" }}
@@ -177,7 +199,6 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
             pick a paper
           </p>
 
-          {/* Color circle swatches */}
           <div className="flex gap-[16px] mb-[50px]">
             {SWATCHES.map((sw, i) => (
               <button
@@ -201,7 +222,6 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
             ))}
           </div>
 
-          {/* "Post your journal" button */}
           <div className="flex items-start p-[12.437px] rounded-[145.097px] bg-[rgba(216,216,216,0.82)] shadow-[0px_3.109px_0px_0px_rgba(255,255,255,0.1)] mb-[30px] relative">
             <button
               onClick={handlePost}
@@ -225,7 +245,6 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
             <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_4.146px_0px_rgba(0,0,0,0.08)]" />
           </div>
 
-          {/* "i don't want to post it" dismiss link */}
           <button
             onClick={onDismiss ?? handleReset}
             className="cursor-pointer underline decoration-solid text-center"
@@ -235,46 +254,37 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
           </button>
         </div>
       </div>
-    );
-  }
 
-  // === WRITING STATE ===
-  const isOverLimit = content.length > MAX_LENGTH;
-  const canSubmit = content.trim().length > 0 && !isOverLimit;
-
-  return (
-    <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[90vw] max-w-[1072px] h-[496px] bg-[#f7f7f7] rounded-[45px] overflow-hidden">
-      <textarea
-        ref={textareaRef}
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder={placeholder}
-        autoFocus
-        className="w-full h-full resize-none border-0 bg-transparent px-[54px] pt-[53px] pb-[80px] font-handwritten text-[35.199px] leading-[1.4] text-black placeholder:text-[#b0b0b0] focus:outline-none focus:ring-0"
-      />
-
-      {/* Location input */}
-      <div className="absolute bottom-[28px] left-[54px]">
-        <input
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="where are you writing from?"
-          maxLength={200}
-          className="bg-transparent border-b border-[rgba(0,0,0,0.1)] pb-[4px] font-handwritten text-[18px] text-black placeholder:text-[#b0b0b0] focus:outline-none focus:border-[rgba(0,0,0,0.3)] transition-colors w-[280px]"
-        />
-      </div>
-
-      <button
-        onClick={handleNext}
-        disabled={!canSubmit}
-        className="absolute bottom-[20px] right-[20px] w-[64px] h-[64px] rounded-full bg-[#272727] flex items-center justify-center cursor-pointer transition-opacity disabled:opacity-30 disabled:cursor-default"
+      {/* === POSTED STATE === */}
+      <div
+        className="absolute inset-0 transition-opacity ease-in-out"
+        style={{
+          opacity: isPosted && visiblePhase === "posted" ? 1 : 0,
+          transitionDuration: "500ms",
+          transitionDelay: isPosted ? "150ms" : "0ms",
+          pointerEvents: isPosted ? "auto" : "none",
+        }}
       >
-        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="12" y1="19" x2="12" y2="5" />
-          <polyline points="5 12 12 5 19 12" />
-        </svg>
-      </button>
-    </div>
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[90vw] max-w-[1072px] h-[496px] bg-[#f7f7f7] rounded-[45px] flex flex-col items-center justify-center gap-6 px-8">
+          <p className="font-handwritten text-[35px] text-black text-center">
+            Your words are out in the world now.
+          </p>
+          <div className="flex gap-8">
+            <a
+              href={entryId ? `/read/${entryId}` : "#"}
+              className="font-handwritten text-[22px] text-[#b0b0b0] underline underline-offset-4 hover:text-black transition-colors"
+            >
+              read your entry
+            </a>
+            <button
+              onClick={handleReset}
+              className="font-handwritten text-[22px] text-[#b0b0b0] underline underline-offset-4 hover:text-black transition-colors cursor-pointer"
+            >
+              write another
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
