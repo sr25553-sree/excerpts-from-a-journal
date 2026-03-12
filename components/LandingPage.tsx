@@ -23,6 +23,7 @@ const VALID_TABS: Tab[] = ["write", "read", "about", "my-journal", "writing"];
 export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
   const [tab, setTabState] = useState<Tab>("write");
   const [selectedCard, setSelectedCard] = useState<{ id: string; cardIndex: number } | null>(null);
+  const [writePhase, setWritePhase] = useState<string>("writing");
 
   // Push history entry when tab changes
   const setTab = useCallback((newTab: Tab) => {
@@ -57,6 +58,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
   const isAbout = tab === "about";
   const isMyJournal = tab === "my-journal";
   const isWriting = tab === "writing";
+  const hideNav = isWriting && writePhase === "writing";
 
   return (
     <>
@@ -82,7 +84,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
         {/* === TOP-RIGHT NAV LINKS === */}
         <div
           className="hidden md:flex absolute right-[80px] top-[calc(50%-390px)] -translate-y-1/2 items-center gap-[32px] z-10 transition-opacity ease-in-out"
-          style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B", transitionDuration: isWriting ? "400ms" : "500ms", transitionDelay: isWriting ? "0ms" : "350ms", opacity: isWriting ? 0 : 1, pointerEvents: isWriting ? "none" as const : "auto" as const }}
+          style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 400, fontSize: "16px", color: "#7B7B7B", transitionDuration: hideNav ? "400ms" : "500ms", transitionDelay: hideNav ? "0ms" : "350ms", opacity: hideNav ? 0 : 1, pointerEvents: hideNav ? "none" as const : "auto" as const }}
         >
           <button onClick={() => setTab("write")} className="cursor-pointer hover:text-black transition-colors" style={{ fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit", color: isWrite ? "#000" : "inherit" }}>
             Home
@@ -313,7 +315,7 @@ export function LandingPage({ initialEntries, totalCount }: LandingPageProps) {
             transitionDelay: isWriting ? "350ms" : "0ms",
           }}
         >
-          {isWriting && <WritePanel onDismiss={() => setTab("write")} />}
+          {isWriting && <WritePanel onDismiss={() => setTab("write")} onPhaseChange={setWritePhase} />}
         </div>
 
         {/* === MY JOURNAL VIEW — fades in/out like other views === */}

@@ -33,11 +33,12 @@ const JOURNAL_SHADOW =
 
 interface WritePanelProps {
   onDismiss?: () => void;
+  onPhaseChange?: (phase: Phase) => void;
 }
 
 type Phase = "writing" | "picking" | "posting" | "posted";
 
-export function WritePanel({ onDismiss }: WritePanelProps) {
+export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
   const [content, setContent] = useState("");
   const [placeholder, setPlaceholder] = useState("");
   const [phase, setPhase] = useState<Phase>("writing");
@@ -49,6 +50,10 @@ export function WritePanel({ onDismiss }: WritePanelProps) {
   useEffect(() => {
     setPlaceholder(getRandomPrompt());
   }, []);
+
+  useEffect(() => {
+    onPhaseChange?.(phase);
+  }, [phase, onPhaseChange]);
 
   const handleNext = useCallback(() => {
     if (content.trim().length > 0) {
