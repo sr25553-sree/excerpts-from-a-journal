@@ -55,6 +55,16 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
     onPhaseChange?.(phase);
   }, [phase, onPhaseChange]);
 
+  // Fade-in trigger for phase transitions
+  const [phaseVisible, setPhaseVisible] = useState(false);
+  useEffect(() => {
+    setPhaseVisible(false);
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setPhaseVisible(true));
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [phase]);
+
   const handleNext = useCallback(() => {
     if (content.trim().length > 0) {
       setPhase("picking");
@@ -100,6 +110,10 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
   // === POSTED STATE ===
   if (phase === "posted" && entryId) {
     return (
+      <div
+        className="absolute inset-0 transition-opacity ease-in-out"
+        style={{ opacity: phaseVisible ? 1 : 0, transitionDuration: "500ms", transitionDelay: phaseVisible ? "150ms" : "0ms" }}
+      >
       <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[90vw] max-w-[1072px] h-[496px] bg-[#f7f7f7] rounded-[45px] flex flex-col items-center justify-center gap-6 px-8">
         <p className="font-handwritten text-[35px] text-black text-center">
           Your words are out in the world now.
@@ -119,6 +133,7 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
           </button>
         </div>
       </div>
+      </div>
     );
   }
 
@@ -129,7 +144,10 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
     const canPost = phase === "picking";
 
     return (
-      <>
+      <div
+        className="absolute inset-0 transition-opacity ease-in-out"
+        style={{ opacity: phaseVisible ? 1 : 0, transitionDuration: "500ms", transitionDelay: phaseVisible ? "150ms" : "0ms" }}
+      >
         {/* Large journal card preview — left side, matching Figma position */}
         <div
           className="absolute left-[calc(50%-268.43px)] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[533.132px] h-[754px] overflow-hidden"
@@ -216,7 +234,7 @@ export function WritePanel({ onDismiss, onPhaseChange }: WritePanelProps) {
             i don&apos;t want to post it
           </button>
         </div>
-      </>
+      </div>
     );
   }
 
